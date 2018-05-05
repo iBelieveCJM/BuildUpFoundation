@@ -85,3 +85,103 @@ int myAtoi(string str) {
 ```
 
 > 使用了 long 类型算不算作弊？
+
+### Add Two Number ####
+
+#### 1. 问题描述
+
+&emsp;把两个非负整数相加，整数的每一位被逆序存储在链表中，结果返回一个列表
+
+&emsp;你需要注意
+
+1. 非法输入检测
+
+2. 注意相加时产生的进位
+
+3. 注意整数的位数不同
+
+#### 2. 测试用例
+
+```
+In:  (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Out: 7 -> 0 -> 8
+```
+```
+In:  (NULL) + (NULL)
+Out: NULL
+```
+```
+In:  (NULL) + (1 -> 2 -> 3)
+Out: 1 -> 2 -> 3
+```
+
+#### 3. 代码片段
+
+```C++
+//////////////////////////////////////////////
+// 定义结点结构
+//////////////////////////////////////////////
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+//////////////////////////////////////////////
+// 处理进位并创建结点
+//////////////////////////////////////////////
+ListNode* calculate(int value, int& in){
+    ListNode* ret = NULL;
+    if(value/10 == 0){
+        in = 0;
+        ret = new ListNode(value);
+    }
+    else{
+        in = 1;
+        ret = new ListNode(value - 10);
+    }
+    return ret;
+}
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    // 输入检测        
+    if(l1 == NULL || l2 == NULL)
+        return NULL;
+    // 创建头结点 
+    ListNode head(0);
+    ListNode* cur = &head;
+    
+    int in = 0;    // 记录进位
+    int value = 0; // 记录每位相加的和
+
+    while(l1!=NULL && l2!=NULL)
+    {
+        value = l1->val + l2->val + in;
+        cur->next = calculate(value, in);
+        
+        l1 = l1->next;
+        l2 = l2->next;
+        cur = cur->next;
+    }
+    // 处理较长链剩下的位数
+    while(l1!=NULL){
+        value = l1->val + in;
+        cur->next = calculate(value, in);
+        
+        l1 = l1->next;
+        cur = cur->next;
+    }
+    while(l2!=NULL){
+        value = l2->val + in;
+        cur->next = calculate(value, in);
+        
+        l2 = l2->next;
+        cur = cur->next;
+    }
+    // 处理最后的进位
+    if(in == 1){
+        cur->next = new ListNode(in);
+    }
+    
+    return head.next;
+}
+```
