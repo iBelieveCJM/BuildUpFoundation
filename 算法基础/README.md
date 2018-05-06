@@ -42,6 +42,7 @@ Out: -2147483648
 ```
 #### 3. 代码片段
 
+&emsp; C++版
 ```C++
 #include<climts>
 int myAtoi(string str) {
@@ -87,6 +88,38 @@ int myAtoi(string str) {
 ```
 
 > 使用了 long 类型算不算作弊？
+
+&emsp;Java版
+```Java
+public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    // 创建头文件
+    ListNode dummyHead = new ListNode(0);
+
+    ListNode p = l1, q = l2, curr = dummyHead;
+    int carry = 0;  // 记录进位
+
+    while (p != null || q != null) {
+        int x = (p != null) ? p.val : 0;
+        int y = (q != null) ? q.val : 0;
+        int sum = carry + x + y;
+
+        carry = sum / 10;
+        curr.next = new ListNode(sum % 10);
+
+        curr = curr.next;
+        if (p != null) {
+            p = p.next;
+        }
+        if (q != null) {
+            q = q.next;
+        }
+    }
+    if (carry > 0) {
+        curr.next = new ListNode(carry);
+    }
+    return dummyHead.next;
+}
+```
 
 ### Add Two Number ####
 
