@@ -120,6 +120,8 @@ Out: 1 -> 2 -> 3
 
 #### 3. 代码片段
 
+C++ 版
+
 ```C++
 //////////////////////////////////////////////
 // 定义结点结构
@@ -272,4 +274,51 @@ int lengthOfLongestSubstring(string s) {
     // 子串长度 = 起始与结尾的差 + 1
     return maxdiff+1;
 }
+```
+
+### Fibonacci Series ####
+
+#### 1. 问题描述
+
+&emsp;求解斐波那契数列
+
+#### 2. 代码片段
+Python3 版
+```Python
+########################################
+# 动态规划法
+# 作者：杨航锋
+# 链接：https://www.zhihu.com/question/271081962/answer/383644634
+# 来源：知乎
+########################################
+from functools import wraps
+# 定义一个 dict 保存以前计算过的值
+def cache(func):
+    memo = dict()
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if args not in memo:
+            memo[args] = func(*args, **kwargs)
+        return memo[args]
+    return wrapper
+
+@cache
+def fib(n):
+    if n <= 2:
+        return 1
+    return fib(n-2) + fib(n-1)
+```
+```Python
+########################################
+# 递推式
+# 作者：kidneyball
+# 链接：https://www.zhihu.com/question/271081962/answer/383644634
+# 来源：知乎
+########################################
+def fib_with_loop(n):
+    a, b = [0, 1]
+    while n > 0:
+        a, b = [b, a + b]
+        n -= 1
+    return a
 ```
