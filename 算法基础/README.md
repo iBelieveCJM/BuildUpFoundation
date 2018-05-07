@@ -191,7 +191,7 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
 &emsp;Java版
 ```Java
 public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-    // 创建头文件
+    // 创建头节点
     ListNode dummyHead = new ListNode(0);
 
     ListNode p = l1, q = l2, curr = dummyHead;
@@ -220,3 +220,56 @@ public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 }
 ```
 
+### Longest Substring Without Repeating Characters ####
+
+#### 1. 问题描述
+
+&emsp;给定一个字符串，返回最长不重复子串的长度
+
+#### 2. 测试用例
+
+```
+In:  "abcabcbb"
+Out: 3
+```
+```
+In:  "bbbb"
+Out: 1
+```
+```
+In:  ""
+Out: 0
+```
+
+#### 3. 代码片段
+C++版
+```C++
+int lengthOfLongestSubstring(string s) {
+    // 输入处理
+    if(s.size()==0) return 0;
+    if(s.size()==1) return 1;
+    
+    int pre = 0;     // 记录最长子串的起始
+    int cur = 0;     // 记录最长子串的结尾
+    int maxdiff = 0; // 记录起始与结尾的差
+    while( cur < s.size()-1 ){
+        // 子串探索，向前增加一个字符
+        ++cur;
+        // 判断是否重复
+        for(int i=pre; i<cur; ++i){
+            // 若重复，更新 pre
+            if(s[i] == s[cur]){
+                pre = i+1;
+                break;
+            }
+        }
+        // 记录当前子串起始与结尾的差
+        int curdiff = cur - pre;
+        if( curdiff > maxdiff ){
+            maxdiff = curdiff;
+        }
+    }
+    // 子串长度 = 起始与结尾的差 + 1
+    return maxdiff+1;
+}
+```
