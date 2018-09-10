@@ -2,6 +2,13 @@
 #include<vector>
 using std::vector;
 
+typedef int (*searchAlgo)(vector<int>, int);
+#include"biSearch.hpp"
+
+#ifdef BISEARCH
+searchAlgo search = biSearch;
+#endif
+
 void testValidTargetOnMid();
 void testValidTargetOnMid2();
 void testValidTargetOnLow();
@@ -9,11 +16,7 @@ void testValidTargetOnUp();
 void testValidTargetNotOnMid();
 void testValidTargetNotOnLow();
 void testValidTargetNotOnUp();
-int biSearch(vector<int>& stortedArr, int target);
-static int biSearch_find_rec(vector<int>& stortedArr, int target, int low, int high);
-static int biSearch_find_loop(vector<int>& stortedArr, int target, int low, int high);
-int biSearch1(vector<int>& stortedArr, int target);
-static int biSearch_find1(vector<int>& stortedArr, int target, int low, int high);
+
 
 int main(){
 	testValidTargetOnMid();
@@ -24,72 +27,6 @@ int main(){
 	testValidTargetNotOnLow();
 	testValidTargetNotOnUp();
 	return 0;
-}
-
-int biSearch(vector<int>& stortedArr, int target){
-	int arrSize = stortedArr.size();
-	int low = 0;
-	int high = arrSize-1;
-	return biSearch_find_loop(stortedArr, target, low, high);
-}
-static int biSearch_find_rec(vector<int>& stortedArr, int target, int low, int high){
-	if(low <= high){
-		int mid = (low+high)/2;
-		if(stortedArr[mid] == target){
-			return mid;
-		}
-		else if(stortedArr[mid] > target){
-			return biSearch_find_rec(stortedArr, target, low, mid-1);
-		}
-		else if(stortedArr[mid] < target){
-			return biSearch_find_rec(stortedArr, target, mid+1, high);
-		}
-	}
-	return low;
-}
-static int biSearch_find_loop(vector<int>& stortedArr, int target, int low, int high){
-	while(low <= high){
-		int mid = (low+high)/2;
-		if(stortedArr[mid] == target){
-			return mid;
-		}
-		else if(stortedArr[mid] > target){
-			high = mid-1;
-		}
-		else if(stortedArr[mid] < target){
-			low = mid+1;
-		}
-	}
-	
-	return low;
-}
-
-int biSearch1(vector<int>& stortedArr, int target){
-	int arrSize = stortedArr.size();
-	if(arrSize==0 || stortedArr[0]>target){
-		return 0;
-	}
-	if(stortedArr[arrSize-1]<target){
-		return arrSize;
-	}
-	int low = 0;
-	int high = arrSize-1;
-	return biSearch_find1(stortedArr, target, low, high);
-}
-static int biSearch_find1(vector<int>& stortedArr, int target, int low, int high){
-	int mid = (low+high)/2;
-	if(stortedArr[mid] == target){
-		return mid;
-	}
-	else if(low==high){
-		return low+1;
-	}
-	else if(stortedArr[mid] > target){
-		return biSearch_find1(stortedArr, target, low, mid-1);
-	}
-	else if(stortedArr[mid] < target){
-		return biSearch_find1(stortedArr, target, mid+1, high);
-	}
 }
 
 void testValidTargetOnMid(){
