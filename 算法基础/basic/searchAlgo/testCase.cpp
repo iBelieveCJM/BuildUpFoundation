@@ -2,11 +2,14 @@
 #include<vector>
 using std::vector;
 
-typedef int (*searchAlgo)(vector<int>, int);
+typedef int (*searchAlgo)(vector<int>&, int);
 #include"biSearch.hpp"
+#include"seqSearch.hpp"
 
-#ifdef BISEARCH
+#ifdef BI_SEARCH
 searchAlgo search = biSearch;
+#elif SEQ_SEARCH
+searchAlgo search = seqSearchOrdered;
 #endif
 
 void testValidTargetOnMid();
@@ -33,7 +36,7 @@ void testValidTargetOnMid(){
 	std::cout<< "test valid target on the mid pos" << std::endl;
 	int target = 5;
 	vector<int> stortedArr = {-1,2,3,4,5,6,7,8,9,10};
-	int pos = biSearch(stortedArr, target);
+	int pos = search(stortedArr, target);
 	if(stortedArr[pos]==target){
 		std::cout<< "find the target " << target << " successfully in " << pos << std::endl;
 	}
@@ -43,7 +46,7 @@ void testValidTargetOnMid2(){
 	std::cout<< "test valid target on the array with repeated element" << std::endl;
 	int target = 5;
 	vector<int> stortedArr = {-1,2,3,4,5,6,7,8,8,8,9,10};
-	int pos = biSearch(stortedArr, target);
+	int pos = search(stortedArr, target);
 	if(stortedArr[pos]==target){
 		std::cout<< "find the target " << target << " successfully in " << pos << std::endl;
 	}
@@ -53,7 +56,7 @@ void testValidTargetOnLow(){
 	std::cout<< "test valid target on the low pos" << std::endl;
 	int target = -1;
 	vector<int> stortedArr = {-1,2,3,4,5,6,7,8,9,10};
-	int pos = biSearch(stortedArr, target);
+	int pos = search(stortedArr, target);
 	if(stortedArr[pos]==target){
 		std::cout<< "find the target " << target << " successfully in " << pos << std::endl;
 	}
@@ -63,7 +66,7 @@ void testValidTargetOnUp(){
 	std::cout<< "test valid target on the up pos" << std::endl;
 	int target = 10;
 	vector<int> stortedArr = {-1,2,3,4,5,6,7,8,9,10};
-	int pos = biSearch(stortedArr, target);
+	int pos = search(stortedArr, target);
 	if(stortedArr[pos]==target){
 		std::cout<< "find the target " << target << " successfully in " << pos << std::endl;
 	}
@@ -72,7 +75,7 @@ void testValidTargetOnUp(){
 void testValidTargetNotOnMid(){
 	int target = 5;
 	vector<int> stortedArr = {-1,2,3,4,6,7,8,9,10};
-	int pos = biSearch(stortedArr, target);
+	int pos = search(stortedArr, target);
 	if(pos == 4){
 		std::cout<< "find the pos " << pos << " successfully " << std::endl;
 	}
@@ -84,7 +87,7 @@ void testValidTargetNotOnMid(){
 void testValidTargetNotOnLow(){
 	int target = -2;
 	vector<int> stortedArr = {-1,2,3,4,6,7,8,9,10};
-	int pos = biSearch(stortedArr, target);
+	int pos = search(stortedArr, target);
 	if(pos == 0){
 		std::cout<< "find the pos " << pos << " successfully " << std::endl;
 	}
@@ -96,7 +99,7 @@ void testValidTargetNotOnLow(){
 void testValidTargetNotOnUp(){
 	int target = 11;
 	vector<int> stortedArr = {-1,2,3,4,6,7,8,9,10};
-	int pos = biSearch(stortedArr, target);
+	int pos = search(stortedArr, target);
 	if(pos == 9){
 		std::cout<< "find the pos " << pos << " successfully " << std::endl;
 	}
