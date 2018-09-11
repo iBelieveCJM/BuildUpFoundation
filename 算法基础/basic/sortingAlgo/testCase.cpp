@@ -4,9 +4,12 @@ using std::vector;
 
 typedef void (*sortingAlgo)(vector<int>&);
 #include"quickSort.hpp"
+#include"insertSort.hpp"
 
 #ifdef QUICK_SORT
 sortingAlgo sort = quickSort;
+#elif INSERT_SORT
+sortingAlgo sort = insertSort;
 #endif
 
 bool is_equal(const vector<int>& source, const vector<int>& target);
