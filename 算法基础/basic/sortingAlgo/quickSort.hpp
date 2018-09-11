@@ -4,16 +4,18 @@ using std::vector;
 
 int partition(vector<int>& arr, int left, int right){
     int povit = arr[left];
-    //std::cout << "pos: " << left << "    povit: " << povit << std::endl;
-    while(left < right){   //note. '<' less than, not less and equal(dead loop) 
-        while(arr[right]>povit && left<right){ //note. if no left<right, it will out of range
-
+    std::cout << "pos: " << left << "    povit: " << povit << std::endl;
+    while(left < right){   //note. '<' less than, not less and equal(dead loop)
+        //note. if no left<right, it will out of range
+        //note. there '>=' and next '<', it must have '=' in one condition
+        //      or '>' and '<='
+        while(arr[right]>=povit && left<right){
             --right;
         }
         arr[left] = arr[right];
         
         while(arr[left]<povit && left<right){ 
-	    ++left;
+            ++left;
         }
         arr[right] = arr[left];
     }
