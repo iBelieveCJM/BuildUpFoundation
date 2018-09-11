@@ -2,7 +2,7 @@
 #include<vector>
 using std::vector;
 
-int biSearch(vector<int> stortedArr, int target){
+int biSearch(vector<int>& stortedArr, int target){
     int low = 0;
     int high = stortedArr.size()-1;
     while(low <= high){
