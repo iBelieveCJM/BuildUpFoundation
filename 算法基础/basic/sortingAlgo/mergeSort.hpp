@@ -3,6 +3,8 @@
 using std::vector;
 
 void merge(vector<int>& arr, vector<int>& temp, int left, int right, int mid){
+    if(left == right)
+        return;
     int first = left;
     int second = mid+1;
     int ind = left;
@@ -27,7 +29,7 @@ void merge(vector<int>& arr, vector<int>& temp, int left, int right, int mid){
 
 
 static void mergeSort_(vector<int>& arr, vector<int>& temp, int left, int right){
-    if(left==right)
+    if(left == right)
         return;
     int mid = (left+right)/2;
     mergeSort_(arr, temp, left, mid);
