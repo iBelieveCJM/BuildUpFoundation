@@ -27,6 +27,7 @@ int partition0(vector<int>& arr, int left, int right){
 int partition1(vector<int>& arr, int left, int right){
     int left_pre = left;   //note. keep the previous left postion
     int povit = arr[left_pre];
+    std::cout << "pos: " << left << "    povit: " << povit << std::endl;
     while(left < right){   //note. '<' less than, not less and equal(dead loop)
         while(arr[right]>povit && left<right){  // note. here, the compare operator can be '>' or '>='
             --right;
