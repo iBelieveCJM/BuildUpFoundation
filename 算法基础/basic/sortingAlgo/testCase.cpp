@@ -1,5 +1,6 @@
 #include<iostream>
 #include<vector>
+#include<algorithm>
 using std::vector;
 
 typedef void (*sortingAlgo)(vector<int>&);
@@ -19,6 +20,25 @@ sortingAlgo sort = simpleSelectSort;
 #elif MERGE_SORT
 #include"mergeSort.hpp"
 sortingAlgo sort = mergeSort;
+#elif HEAP_SORT
+#include"heapSort.hpp"
+sortingAlgo sort = heapSort;
+#elif HEAP_SORT_STL
+void heapSort(vector<int>& arr){
+    std::make_heap(arr.begin(), arr.end());
+    std::sort_heap(arr.begin(), arr.end());
+}
+sortingAlgo sort = heapSort;
+#elif SORT_STL
+void sort_stl(vector<int>& arr){
+    std::sort(arr.begin(), arr.end());
+}
+sortingAlgo sort = sort_stl;
+#elif STABLE_SORT_STL
+void stable_sort_stl(vector<int>& arr){
+    std::stable_sort(arr.begin(), arr.end());
+}
+sortingAlgo sort = stable_sort_stl;
 #endif
 
 bool is_equal(const vector<int>& source, const vector<int>& target);
@@ -27,9 +47,11 @@ void testUnorderedEven();
 void testInvOdd();
 void testInvEven();
 void testRepetition();
+void testEmpty();
 
 
 int main(){
+    testEmpty();
     testUnorderedOdd();
     testUnorderedEven();
     testInvOdd();
@@ -53,6 +75,21 @@ bool is_equal(const vector<int>& source, const vector<int>& target){
 void print_vec(const vector<int>& arr){
     for(int e:arr) std::cout<< "  " << e;
     std::cout<<std::endl;
+}
+
+void testEmpty(){
+	std::cout<< "test empty array" << std::endl;
+    vector<int> source;
+	vector<int> target;
+	sort(source);
+    //partition(source, 0, source.size()-1);
+	if(is_equal(source, target)){
+		std::cout<< "sorting successfully!" << std::endl;
+	}
+    else{
+        std::cout<< "sorting faild!, arr is " << std::endl;
+        print_vec(source);
+    }
 }
 
 void testUnorderedOdd(){
