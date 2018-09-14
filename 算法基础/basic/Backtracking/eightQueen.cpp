@@ -35,14 +35,14 @@ void Queen1(int num){
         }
         // if the pos is ok
         else{
-            // all queen is all right
+            // if all queen is all right
             // output the result and try next position
             if(step == (num-1)){
                 ++count;
                 printVec(pos);
                 ++pos[step];
             }
-            // try next queen
+            // otherwise, try next queen
             else{
                 ++step;
             }

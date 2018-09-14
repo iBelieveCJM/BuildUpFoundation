@@ -57,7 +57,7 @@ int main(){
     testInvOdd();
     testInvEven();
     testRepetition();
-	return 0;
+    return 0;
 }
 
 bool is_equal(const vector<int>& source, const vector<int>& target){
@@ -78,14 +78,14 @@ void print_vec(const vector<int>& arr){
 }
 
 void testEmpty(){
-	std::cout<< "test empty array" << std::endl;
+    std::cout<< "test empty array" << std::endl;
     vector<int> source;
-	vector<int> target;
-	sort(source);
+    vector<int> target;
+    sort(source);
     //partition(source, 0, source.size()-1);
-	if(is_equal(source, target)){
-		std::cout<< "sorting successfully!" << std::endl;
-	}
+    if(is_equal(source, target)){
+        std::cout<< "sorting successfully!" << std::endl;
+    }
     else{
         std::cout<< "sorting faild!, arr is " << std::endl;
         print_vec(source);
@@ -93,14 +93,14 @@ void testEmpty(){
 }
 
 void testUnorderedOdd(){
-	std::cout<< "test unordered and odd array" << std::endl;
+    std::cout<< "test unordered and odd array" << std::endl;
     vector<int> source = {-1,0,11,-3,10,3,6,7,9};
-	vector<int> target = {-3,-1,0,3,6,7,9,10,11};
-	sort(source);
+    vector<int> target = {-3,-1,0,3,6,7,9,10,11};
+    sort(source);
     //partition(source, 0, source.size()-1);
-	if(is_equal(source, target)){
-		std::cout<< "sorting successfully!" << std::endl;
-	}
+    if(is_equal(source, target)){
+        std::cout<< "sorting successfully!" << std::endl;
+    }
     else{
         std::cout<< "sorting faild!, arr is " << std::endl;
         print_vec(source);
@@ -108,14 +108,14 @@ void testUnorderedOdd(){
 }
 
 void testUnorderedEven(){
-	std::cout<< "test unordered and even array" << std::endl;
+    std::cout<< "test unordered and even array" << std::endl;
     vector<int> source = {-1,0,11,-3,10,3,6,7,9,30};
-	vector<int> target = {-3,-1,0,3,6,7,9,10,11,30};
-	sort(source);
+    vector<int> target = {-3,-1,0,3,6,7,9,10,11,30};
+    sort(source);
     //partition(source, 0, source.size()-1);
-	if(is_equal(source, target)){
-		std::cout<< "sorting successfully!" << std::endl;
-	}
+    if(is_equal(source, target)){
+        std::cout<< "sorting successfully!" << std::endl;
+    }
     else{
         std::cout<< "sorting faild!, arr is " << std::endl;
         print_vec(source);
@@ -123,14 +123,14 @@ void testUnorderedEven(){
 }
 
 void testInvOdd(){
-	std::cout<< "test inverse odd array" << std::endl;
+    std::cout<< "test inverse odd array" << std::endl;
     vector<int> source = {11,10,9,7,6,3,0,-1,-3};
-	vector<int> target = {-3,-1,0,3,6,7,9,10,11};
-	sort(source);
+    vector<int> target = {-3,-1,0,3,6,7,9,10,11};
+    sort(source);
     //partition(source, 0, source.size()-1);
-	if(is_equal(source, target)){
-		std::cout<< "sorting successfully!" << std::endl;
-	}
+    if(is_equal(source, target)){
+        std::cout<< "sorting successfully!" << std::endl;
+    }
     else{
         std::cout<< "sorting faild!, arr is " << std::endl;
         print_vec(source);
@@ -138,14 +138,14 @@ void testInvOdd(){
 }
 
 void testInvEven(){
-	std::cout<< "test inverse even array" << std::endl;
+    std::cout<< "test inverse even array" << std::endl;
     vector<int> source = {11,10,9,7,6,3,0,-1,-3, -10};
-	vector<int> target = {-10, -3,-1,0,3,6,7,9,10,11};
-	sort(source);
+    vector<int> target = {-10, -3,-1,0,3,6,7,9,10,11};
+    sort(source);
     //partition(source, 0, source.size()-1);
-	if(is_equal(source, target)){
-		std::cout<< "sorting successfully!" << std::endl;
-	}
+    if(is_equal(source, target)){
+        std::cout<< "sorting successfully!" << std::endl;
+    }
     else{
         std::cout<< "sorting faild!, arr is " << std::endl;
         print_vec(source);
@@ -153,14 +153,14 @@ void testInvEven(){
 }
 
 void testRepetition(){
-	std::cout<< "test repetition array" << std::endl;
+    std::cout<< "test repetition array" << std::endl;
     vector<int> source = {11,10,7,7,3,0,-1,-3,7};
-	vector<int> target = {-3,-1,0,3,7,7,7,10,11};
-	sort(source);
+    vector<int> target = {-3,-1,0,3,7,7,7,10,11};
+    sort(source);
     //partition(source, 0, source.size()-1);
-	if(is_equal(source, target)){
-		std::cout<< "sorting successfully!" << std::endl;
-	}
+    if(is_equal(source, target)){
+        std::cout<< "sorting successfully!" << std::endl;
+    }
     else{
         std::cout<< "sorting faild!, arr is " << std::endl;
         print_vec(source);
