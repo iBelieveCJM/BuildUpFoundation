@@ -44,6 +44,9 @@ void permutation_(vector<T>& arr, vector<int>& pos, int step){
 }
 template<typename T>
 void permutation(vector<T>& arr, int n){
+    if(n >= arr.size()){
+        return; // error, should throw exception.
+    }
     vector<int> pos(n, 0);
     permutation_(arr, pos, 0);
 }
