@@ -19,7 +19,7 @@ void printPartialVec(vector<T>& arr, vector<int>& pos){
 }
 bool is_ok(vector<int>& pos, int step){
     for(int i=0; i<step; ++i){
-        if(pos[i] >= pos[step]){ //note. here must be '>='
+        if(pos[i] >= pos[step]){ //note. here must be '>='. Actually, it is the only diffenence from permutation
             return false;
         }
     }
@@ -34,7 +34,7 @@ void combination_(vector<T>& arr, vector<int>& pos, int step){
 #endif
     }
     else{
-        for(int i=step; i!=arr.size(); ++i){ //note. i starts from step (current step) for optimition. It can start from 0.
+        for(int i=step; i!=arr.size(); ++i){ //note. i starts from step for optimition. It can start from 0.
             pos[step] = i;
             if( is_ok(pos, step) ){
                 combination_(arr, pos, step+1);
