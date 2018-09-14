@@ -26,20 +26,30 @@ void Queen1(int num){
     vector<int> pos(num, 0);
     int step = 0;
     int count = 0;
+    // if the position of first queen is out of the end, stop.
     while(pos[0]!=num){
+        // if the position is not ok (need not check when step is 0, it's ok always)
+        // then try next position
         if(step>0 && (!is_ok(pos, step)) ){
             ++pos[step];
         }
+        // if the pos is ok
         else{
+            // all queen is all right
+            // output the result and try next position
             if(step == (num-1)){
+                ++count;
                 printVec(pos);
                 ++pos[step];
-                ++count;
             }
+            // try next queen
             else{
                 ++step;
             }
         }
+        // if the position is out of the end (that is, we have tried all the position of current queen)
+        // then back track to previous queen and try the it's next position
+        // We skip the first queen(step>0), for we use it as final condition to stop.
         while(step>0 && pos[step]==num){
             pos[step] = 0;
             --step;
@@ -72,6 +82,7 @@ void Queen2(int num){
 }
 
 int main(){
+    Queen1(8);
     Queen2(8);
     return 0;
 }
