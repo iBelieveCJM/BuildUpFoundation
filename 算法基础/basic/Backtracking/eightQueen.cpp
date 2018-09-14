@@ -60,16 +60,16 @@ void Queen1(int num){
 }
 
 
-void queen_(vector<int>& pos, int col, int num, int& count){
-    if(col == num){
+void queen_(vector<int>& pos, int col, int& count){
+    if(col == pos.size()){
         count++;
         printVec(pos);
     }
     else{
-        for(int row=0; row!=num; ++row){
+        for(int row=0; row!=pos.size(); ++row){
             pos[col] = row;
             if( is_ok(pos, col) ){
-                queen_(pos, col+1, num, count);
+                queen_(pos, col+1, count);
             }
         }
     }
@@ -77,12 +77,12 @@ void queen_(vector<int>& pos, int col, int num, int& count){
 void Queen2(int num){
     int count = 0;
     vector<int> pos(num, 0);
-    queen_(pos, 0, num, count);
+    queen_(pos, 0, count);
     std::cout<< "total solutions: " << count << std::endl;
 }
 
 int main(){
-    Queen1(8);
+    //Queen1(8);
     Queen2(8);
     return 0;
 }
