@@ -8,12 +8,14 @@ public:
     typedef struct Node_{
         int val;
         struct Node_* next;
+        Node_(int val_):val(val_), next(nullptr){};
+        Node_(int val_, Node_* next_):val(val_), next(next_){};
     } Node;
     
     dynamicLink(const std::initializer_list<int> args){
         Node* tail = &head;
         for(const int a : args){
-            Node* temp = new Node{a, nullptr};
+            Node* temp = new Node(a);
             tail->next = temp;
             tail = temp;
         }
@@ -24,7 +26,7 @@ public:
     }
     
     void insertAtHead(int value){
-        Node* temp = new Node{value, nullptr};
+        Node* temp = new Node(value);
         temp->next = head.next;
         head.next = temp;
         //if(tail == nullptr){
