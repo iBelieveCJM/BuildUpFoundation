@@ -11,18 +11,11 @@ public:
     } Node;
     
     dynamicLink(const std::initializer_list<int> args){
+        Node* tail = &head;
         for(const int a : args){
-            insertAtTail(a);
-        }
-    }
-    
-    dynamicLink(dynamicLink& target){
-        Node* targetHead = target.getHead();
-        if(targetHead==nullptr){
-            return;
-        }
-        for(Node* i=targetHead->next; i!=nullptr; i=i->next){
-            insertAtTail(i->val);
+            Node* temp = new Node{a, nullptr};
+            tail->next = temp;
+            tail = temp;
         }
     }
     
@@ -34,21 +27,21 @@ public:
         Node* temp = new Node{value, nullptr};
         temp->next = head.next;
         head.next = temp;
-        if(tail == nullptr){
-            tail = temp;
-        }
+        //if(tail == nullptr){
+        //    tail = temp;
+        //}
     }
     
-    void insertAtTail(int value){
-        Node* temp = new Node{value, nullptr};
-        if(head.next == nullptr){
-            head.next = temp;
-            tail = temp;
-            return;
-        }
-        tail->next = temp;
-        tail = temp;
-    }
+    //void insertAtTail(int value){
+    //    Node* temp = new Node{value, nullptr};
+    //    if(head.next == nullptr){
+    //        head.next = temp;
+    //        tail = temp;
+    //        return;
+    //    }
+    //    tail->next = temp;
+    //    tail = temp;
+    //}
     
     void printLink(){
         for(Node* i=head.next; i!=nullptr; i=i->next){
@@ -75,7 +68,7 @@ public:
     }
 private:
     Node head = {0, nullptr};
-    Node* tail = nullptr;
+    //Node* tail = nullptr;
 };
 
 #endif
