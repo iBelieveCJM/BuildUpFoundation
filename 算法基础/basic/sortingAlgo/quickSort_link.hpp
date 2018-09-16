@@ -52,40 +52,27 @@ linkNode* partition_val(linkNode* left, linkNode* right){
 //    1.list for element which greater than povit
 // then link two list and other part of the whole list.
 ///////////////////
-void insertList(linkNode** list, linkNode** point){
-    (*point)->next = (*list)->next;
-    (*list)->next = *point;
-    *list = *point;
-}
 linkNode* partition_node(linkNode* pre_left, linkNode* left, linkNode* right){
-    linkNode* point = left;
-    linkNode* povit = left;
-    linkNode povitHead = {0, nullptr};
-    linkNode* povitList = &povitHead;
-    linkNode lessHead = {0, nullptr};
+    int povit = left->val;
+    linkNode lessHead(0);
     linkNode* lessList = &lessHead;
-    linkNode greaterHead = {0, nullptr};
+    linkNode greaterHead(0);
     linkNode* greaterList = &greaterHead;
-    while(point != right){
-        linkNode* aft = point->next;
-        
-        if( point->val < povit->val ){
-            insertList(&lessList, &point);   // if you want to change the pointer, you should use pointer to pointer
+    for(linkNode* i=left->next; i!=right; i=i->next){ //note. i must start from left->next, skip the povit
+        if( i->val < povit ){
+            lessList->next = i;
+            lessList = i;
         }
-        if( point->val > povit->val ){
-            insertList(&greaterList, &point);
+        else{
+            greaterList->next = i;
+            greaterList = i;
         }
-        if( point->val == povit->val){
-            insertList(&povitList, &point);
-        }
-        
-        point = aft;
     }
     greaterList->next = right;
-    povitList->next = greaterHead.next;
-    lessList->next = povitHead.next;
+    left->next = greaterHead.next;
+    lessList->next = left;
     pre_left->next = lessHead.next;
-    return povit;
+    return left;
 }
 
 static void quickSort_link_val_(linkNode* left, linkNode* right){
