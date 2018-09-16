@@ -28,7 +28,7 @@ int main(){
 
 void testUnorderedOdd(){
     dynamicLink testlink = {9, 4, 111, 0, -4, 12, -8};
-    testlink.printLink();
+    //testlink.printLink();
     dynamicLink verlink = {-8, -4, 0, 4, 9, 12, 111};
     sort(testlink.getHead());
     if(verlink.equals(testlink)){

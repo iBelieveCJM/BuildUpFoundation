@@ -72,7 +72,7 @@ static void quickSort_link_node_(linkNode* pre_left, linkNode* left, linkNode* r
         return;
     linkNode* povit = partition_node(pre_left, left, right);
     std::cout<< "left: " << pre_left->next->val << " povit: " << povit->val << std::endl;
-    quickSort_link_node_(pre_left, pre_left->next, povit);
+    quickSort_link_node_(pre_left, pre_left->next, povit); //note. the second arg must use pre_left->next for left==povit
     quickSort_link_node_(povit, povit->next, right);
 }
 
