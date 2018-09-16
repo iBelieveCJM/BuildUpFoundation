@@ -11,23 +11,6 @@ void swap_val(linkNode* a, linkNode* b){
     a->val = b->val;
     b->val = temp;
 }
-void swap_node(linkNode* pre_a, linkNode* a, linkNode* pre_b, linkNode* b){
-    if(a == b){
-        return;
-    }
-    if(pre_b == a){
-        linkNode* after_b = b->next;
-        b->next = a;
-        a->next = after_b;
-        pre_a->next = b;
-        return;
-    }
-    linkNode* after_b = b->next;
-    b->next = a->next;
-    a->next = after_b;
-    pre_a->next = b;
-    pre_b->next = a;
-}
 ///////////////////
 // the idea seems like remove the repeated elements in a ordered array
 ///////////////////
