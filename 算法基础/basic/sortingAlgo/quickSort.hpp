@@ -3,58 +3,78 @@
 using std::vector;
 
 int partition0(vector<int>& arr, int left, int right){
-    int povit = arr[left];
-    std::cout << "pos: " << left << "    povit: " << povit << std::endl;
+    int pivot = arr[left];
+    std::cout << "pos: " << left << "    pivot: " << pivot << std::endl;
     while(left < right){   //note. '<' less than, not less and equal(dead loop)
         //note. if no left<right, it will out of range
         //note. there '>=' and next '<', it must have '=' in one condition
         //      or '>' and '<='
         //note. you must start from right side
-        while(arr[right]>=povit && left<right){
+        while(arr[right]>=pivot && left<right){
             --right;
         }
         arr[left] = arr[right];
         
-        while(arr[left]<=povit && left<right){ 
+        while(arr[left]<=pivot && left<right){ 
             ++left;
         }
         arr[right] = arr[left];
     }
-    arr[left] = povit;    //note. store the povit
-    return left;          //note. return the position of povit
+    arr[left] = pivot;    //note. store the pivot
+    return left;          //note. return the position of pivot
 }
 
+void swap(int& a, int& b){
+    if(&a == &b){
+        return ;
+    }
+    int temp = a;
+    a = b;
+    b = temp;
+}
 int partition1(vector<int>& arr, int left, int right){
     int left_pre = left;   //note. keep the previous left postion
-    int povit = arr[left_pre];
-    std::cout << "pos: " << left << "    povit: " << povit << std::endl;
+    int pivot = arr[left_pre];
+    std::cout << "pos: " << left << "    pivot: " << pivot << std::endl;
     while(left < right){   //note. '<' less than, not less and equal(dead loop)
-        while(arr[right]>povit && left<right){  // note. here, the compare operator can be '>' or '>='
+        while(arr[right]>pivot && left<right){  // note. here, the compare operator can be '>' or '>='
             --right;
         }
-        while(arr[left]<=povit && left<right){  // note. here, the compare operator must be '<='
+        while(arr[left]<=pivot && left<right){  // note. here, the compare operator must be '<='
             ++left;
         }
         if(left < right){
-            int temp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = temp;
+            swap(arr[left], arr[right]);
         }
     }
-    //note. should put the povit in right place.
+    //note. should put the pivot in right place. swap(arr[left_pre], arr[left])
     arr[left_pre] = arr[left];
-    arr[left] = povit;
+    arr[left] = pivot;
     return left;
 }
 
+int partition2(vector<int>& arr, int left, int right){
+    int pivot = arr[left];
+    std::cout << "pos: " << left << "    pivot: " << pivot << std::endl;
+    int greater_index = left;
+    int less_index = left;
+    while(greater_index <= right){
+        if(arr[greater_index] < pivot){
+            swap(arr[++less_index], arr[greater_index]);
+        }
+        ++greater_index;
+    }
+    swap(arr[left], arr[less_index]);
+    return less_index;
+}
 
 static void quickSort_(vector<int>& arr, int left, int right){
     if(left>=right)
         return;
-    int povit = partition0(arr, left, right);
-    //std::cout<< "....povit... " << povit << std::endl;
-    quickSort_(arr, left, povit-1);  //note. povit-1
-    quickSort_(arr, povit+1, right); //note. povit+1
+    int pivot = partition2(arr, left, right);
+    //std::cout<< "....pivot... " << pivot << std::endl;
+    quickSort_(arr, left, pivot-1);  //note. pivot-1
+    quickSort_(arr, pivot+1, right); //note. pivot+1
 }
 
 void quickSort(vector<int>& arr){
