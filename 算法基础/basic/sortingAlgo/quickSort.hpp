@@ -80,3 +80,32 @@ static void quickSort_(vector<int>& arr, int left, int right){
 void quickSort(vector<int>& arr){
     quickSort_(arr, 0, arr.size()-1);
 }
+
+// using a stack to keep the bound
+void quickSort_unrecursion(vector<int>& arr){
+    if(arr.size()==0 || arr.size()==1){
+        return;
+    }
+    int stack[2000];
+    int top = -1;
+    stack[++top] = 0;
+    stack[++top] = arr.size()-1;
+    // if stack is not empty
+    while(top>0){
+        //note. stack is first in last out
+        //      so we get right first then left
+        int right = stack[top--];
+        int left = stack[top--];
+        int pivot = partition0(arr, left, right);
+        //if the right sub array has element
+        if(pivot+1 < right){
+            stack[++top] = pivot+1;
+            stack[++top] = right;
+        }
+        //if the left sub array has element
+        if(left < pivot-1){
+            stack[++top] = left;
+            stack[++top] = pivot-1;
+        }
+    }
+}
