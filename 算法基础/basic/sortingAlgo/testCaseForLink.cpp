@@ -16,6 +16,9 @@ sortingAlgo sort = insertSort_link;
 #elif SIMPLE_SORT
 #include"simpleSelectSort_link.hpp"
 sortingAlgo sort = simpleSelectSort_link;
+#elif MERGE_SORT
+#include"mergeSort_link.hpp"
+sortingAlgo sort = mergeSort_link;
 #endif
 
 void testUnorderedOdd();
@@ -26,6 +29,10 @@ void testRepetitionOdd();
 void testRepetitionEven();
 
 int main(){
+#ifdef MERGE_SORT
+    testMerge();
+#endif
+    
     testUnorderedOdd();
     testUnorderedEven();
     testInvOdd();
