@@ -7,6 +7,12 @@ typedef void (*sortingAlgo)(linkNode*);
 #ifdef QUICK_SORT
 #include"quickSort_link.hpp"
 sortingAlgo sort = quickSort_link;
+#elif BUBBLE_SORT
+#include"bubbleSort_link.hpp"
+sortingAlgo sort = bubbleSort_link;
+#elif INSERT_SORT
+#include"insertSort_link.hpp"
+sortingAlgo sort = insertSort_link;
 #endif
 
 void testUnorderedOdd();
