@@ -14,6 +14,7 @@ searchAlgo search = seqSearchOrdered;
 
 void testValidTargetOnMid();
 void testValidTargetOnMid2();
+void testValidTargetOnMid3();
 void testValidTargetOnLow();
 void testValidTargetOnUp();
 void testValidTargetNotOnMid();
@@ -24,6 +25,7 @@ void testValidTargetNotOnUp();
 int main(){
 	testValidTargetOnMid();
 	testValidTargetOnMid2();
+    testValidTargetOnMid3();
 	testValidTargetOnLow();
 	testValidTargetOnUp();
 	testValidTargetNotOnMid();
@@ -52,6 +54,15 @@ void testValidTargetOnMid2(){
 	}
 }
 
+void testValidTargetOnMid3(){
+	std::cout<< "test valid target on the array with repeated element" << std::endl;
+	int target = 8;
+	vector<int> stortedArr = {-1,2,3,4,5,6,7,8,8,8,9,10};
+	int pos = search(stortedArr, target);
+	if(stortedArr[pos]==target){
+		std::cout<< "find the target " << target << " successfully in " << pos << std::endl;
+	}
+}
 void testValidTargetOnLow(){
 	std::cout<< "test valid target on the low pos" << std::endl;
 	int target = -1;
