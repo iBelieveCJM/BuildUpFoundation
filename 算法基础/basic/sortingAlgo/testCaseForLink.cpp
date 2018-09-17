@@ -13,6 +13,9 @@ sortingAlgo sort = bubbleSort_link;
 #elif INSERT_SORT
 #include"insertSort_link.hpp"
 sortingAlgo sort = insertSort_link;
+#elif SIMPLE_SORT
+#include"simpleSelectSort_link.hpp"
+sortingAlgo sort = simpleSelectSort_link;
 #endif
 
 void testUnorderedOdd();
