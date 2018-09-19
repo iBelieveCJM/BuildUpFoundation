@@ -4,15 +4,14 @@
 """
 
 import numpy as np
-import time
 
-class LinearReg():
+class LinearRegL2():
     
     def __init__(self):
         self.coef_ = None;
         self.intercept_ = 0;
         
-    def fit(self, X, y):
+    def fit(self, X, y, lambda_=0.2):
         """fit the data
         """
         # data process: w*X+b ==> w_*X_temp, that is w_ = [w,b]
@@ -20,7 +19,7 @@ class LinearReg():
         X_temp = np.concatenate((X, np.ones((num_x, 1))), axis=1)
         
         # XTX checks
-        XTX = X_temp.T.dot(X_temp)
+        XTX = X_temp.T.dot(X_temp) + lambda_*np.eye(np.shape(X_temp)[1])
         if np.linalg.det(XTX) == 0:
             print('error: the X.T.dot(X) is singular')
             return #should raise the expection
