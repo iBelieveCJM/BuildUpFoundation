@@ -27,7 +27,7 @@ def split_data(data, n_train):
     
 @time_test
 def load_data(load_data_func, n_train, is_shuffle=True):
-    iris = load_data_func()   # the shape of iris.data is (150,4)
+    iris = load_data_func()
     if is_shuffle:
         shuffle_data(iris)
     return split_data(iris, n_train)
@@ -50,7 +50,7 @@ if __name__ == '__main__':
     ## load data
     n_train = 10
     print('the number of train data is {}'.format(n_train))
-    data = load_data(load_iris, n_train)
+    data = load_data(load_iris, n_train)    # the shape of iris.data is (150,4)
     
     ## sklearn linear regression
     print('\nsklearn linear regression')

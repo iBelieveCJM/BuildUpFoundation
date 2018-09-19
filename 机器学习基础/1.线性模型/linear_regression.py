@@ -13,7 +13,7 @@ class LinearReg():
         self.intercept_ = 0;
         
     def fit(self, X, y):
-        """fit the data
+        """ linear regression with OLS 
         """
         # data process: w*X+b ==> w_*X_temp, that is w_ = [w,b]
         num_x = np.shape(X)[0]
