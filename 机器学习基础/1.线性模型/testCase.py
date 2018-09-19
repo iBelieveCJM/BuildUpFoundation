@@ -52,6 +52,8 @@ if __name__ == '__main__':
     print('the number of train data is {}'.format(n_train))
     data = load_data(load_iris, n_train)    # the shape of iris.data is (150,4)
     
+    print('\nOLS TEST' + '-'*30)
+    
     ## sklearn linear regression
     print('\nsklearn linear regression')
     reg = linear_model.LinearRegression()
@@ -59,6 +61,17 @@ if __name__ == '__main__':
     
     ## my linear regression
     print('\nmy linear regresssion')
-    #myReg = LinearReg()
-    myReg = LinearRegL2()
+    myReg = LinearReg()
+    testModel(myReg, *data)
+    
+    print('\nL2 TEST' + '-'*30)
+    
+    ## sklearn linear regression
+    print('\nsklearn linear regression')
+    reg = linear_model.Ridge(alpha=0.2)
+    testModel(reg, *data)
+    
+    ## my linear regression
+    print('\nmy linear regresssion')
+    myReg = LinearRegL2(lambda_=0.2)
     testModel(myReg, *data)
