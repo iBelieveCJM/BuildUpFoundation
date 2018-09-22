@@ -7,7 +7,7 @@ from tqdm import tqdm
 class Trainer:
 
     def __init__(self, model, optimizer, loss_fn, device, save_dir=None, save_freq=5):
-        self.model = model
+        self.model = model.to(device)
         self.optimizer = optimizer
         self.loss_fn = loss_fn
         self.save_dir = save_dir
@@ -22,7 +22,7 @@ class Trainer:
             outputs = self.model(data)
             loss = self.loss_fn(outputs, targets)
             loop_loss.append(loss.item() / len(data_loader))
-            accuracy.append((output.max(1)[1]==target).sum().item())
+            accuracy.append((outputs.max(1)[1]==targets).sum().item())
             if is_train:
                 self.optimizer.zero_grad()
                 loss.backward()
@@ -34,7 +34,7 @@ class Trainer:
     def train(self, data_loader):
         self.model.train()
         with torch.enable_grad(): #torch.enable_grad():
-            loss, correct = slef._iteration(data_loader)
+            loss, correct = self._iteration(data_loader)
 
     def test(self, data_loader):
         self.model.eval()

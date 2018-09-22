@@ -7,7 +7,7 @@ from util.Config import parse_dict_args
 def parameters():
     defaults = {
         # Technical details
-        'is_parallel': True,
+        'is_parallel': False,
         'workers': 2,
         'checkpoint_epochs': 20,
 

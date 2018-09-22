@@ -1,4 +1,5 @@
 #!coding:utf-8
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -18,7 +19,7 @@ class LeNet(nn.Module):
         out = F.relu(self.conv2(out))
         out = F.max_pool2d(out, 2)
         
-        out = out.view(out,size(0), -1)
+        out = out.view(out.size(0), -1)
         out = F.relu(self.fc1(out))
         out = F.relu(self.fc2(out))
 
@@ -29,5 +30,3 @@ def test():
     x = torch.randn(2, 3, 32, 32)
     y = net(x)
     print(y.size())
-
-# test()

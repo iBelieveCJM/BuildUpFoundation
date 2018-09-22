@@ -48,6 +48,7 @@ def create_optim(params, config):
                               nesterov=config.nesterov)
     elif config.optim == 'adam':
         optimizer = optim.ADAM(params, config.lr)
+    return optimizer
 
 
 def main(config):
