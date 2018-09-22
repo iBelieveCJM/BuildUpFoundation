@@ -33,7 +33,7 @@ class Trainer:
 
     def train(self, data_loader):
         self.model.train()
-        with torch.set_grad_enabled(): #torch.enable_grad():
+        with torch.enable_grad(): #torch.enable_grad():
             loss, correct = slef._iteration(data_loader)
 
     def test(self, data_loader):

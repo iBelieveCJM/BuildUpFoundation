@@ -2,43 +2,45 @@ import sys
 import torch
 
 import main
+from util.Config import parse_dict_args
 
 def parameters():
     defaults = {
         # Technical details
-        'is_parallell': True,
+        'is_parallel': True,
         'workers': 2,
         'checkpoint_epochs': 20,
 
         # Data
         'dataset': 'cifar10',
-        #'train_subdir': 'train+val',
-        #'eval_subdir': 'test',
-
-        # Data sampling
-        'base_batch_size': 100, #128,
+        'base_batch_size': 128,
 
         # Architecture
-        'arch': 'cifar_cnn',
+        'arch': 'lenet',
 
         # Optimization
-        'epochs': 400,
-        'base_lr': 0.1,
+        'loss': 'soft',
+        'optim': 'sgd',
+        'epochs': 500,
+        'base_lr': 0.01,
+        'momentum': 0.9,
+        'weight_decay': 5e-4,
         'nesterov': True,
     }
 
-def run(title, base_batch_size, base_lr, n_labels, data_seed, is_parallel, **kwargs):
-    if is_parallel:
+    yield {**defaults}
+
+def run(base_batch_size, base_lr, is_parallel, **kwargs):
+    if is_parallel and torch.cuda.is_available():
         ngpu = torch.cuda.device_count()
     else:
         ngpu = 1
     adapted_args = {
         'batch_size': base_batch_size * ngpu,
-        'labeled_batch_size': base_labeled_batch_size * ngpu,
         'lr': base_lr * ngpu,
     }
-    main.args = parse_dict_args(**adapted_args, **kwargs)
-    main.main(context)
+    args = parse_dict_args(**adapted_args, **kwargs)
+    main.main(args)
 
 
 if __name__ == "__main__":
