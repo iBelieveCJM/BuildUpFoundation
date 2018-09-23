@@ -6,6 +6,7 @@ import torch.nn.functional as F
 
 import torchvision
 import torchvision.transforms as transforms
+from tensorboardX import SummaryWriter
 
 from util import datasets, Trainer
 from architectures.arch import arch
@@ -52,6 +53,8 @@ def create_optim(params, config):
 
 
 def main(config):
+    writer = SummaryWriter()
+
     device = 'cuda:6' if torch.cuda.is_available() else 'cpu'
 
     dataset_config = datasets.cifar10()
@@ -62,5 +65,7 @@ def main(config):
     net = arch[config.arch]()
     optimizer = create_optim(net.parameters(), config)
 
-    trainer = Trainer.Trainer(net, optimizer, criterion, device)
-    trainer.loop(config.epochs, train_loader, eval_loader)
+    trainer = Trainer.Trainer(net, optimizer, criterion, device, writer)
+    trainer.loop(config.epochs, train_loader, eval_loader, print_freq=config.print_freq)
+
+    writer.close()

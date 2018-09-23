@@ -21,6 +21,8 @@ def create_parser():
                         choices=['cifar10'])
     parser.add_argument('-b', '--batch-size', default=256, type=int,
                         metavar='N', help='mini-batch size (default: 256)')
+    parser.add_argument('--print-freq', default=20, type=int,
+                        metavar='N', help='display frequence (default: 20)')
 
     # Architecture
     parser.add_argument('--arch', '-a', metavar='ARCH', default='lenet')
@@ -60,7 +62,7 @@ def parse_dict_args(**kwargs):
                     for key, value in kwargs.items())
     cmdline_args = list(sum(kwargs_pairs, ()))
 
-    print("Using these command line args: %s", " ".join(cmdline_args))
+    print("Using these args: ", " ".join(cmdline_args))
 
     return create_parser().parse_args(cmdline_args)
 

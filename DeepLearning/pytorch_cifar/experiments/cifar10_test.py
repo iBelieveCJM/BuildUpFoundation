@@ -14,6 +14,7 @@ def parameters():
         # Data
         'dataset': 'cifar10',
         'base_batch_size': 128,
+        'print_freq': 30,
 
         # Architecture
         'arch': 'lenet',
