@@ -5,7 +5,7 @@ import torch
 class Trainer:
 
     def __init__(self, model, optimizer, loss_fn, device, writer=None, save_dir=None, save_freq=5):
-        self.model = model.to(device)
+        self.model = model # model.to(device)
         self.optimizer = optimizer
         self.loss_fn = loss_fn
         self.save_dir = save_dir

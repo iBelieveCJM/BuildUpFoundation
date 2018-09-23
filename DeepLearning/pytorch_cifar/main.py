@@ -53,19 +53,20 @@ def create_optim(params, config):
 
 
 def main(config):
-    writer = SummaryWriter()
+    with SummaryWriter() as writer:
+        dummy_input = (torch.randn(10,3,32,32),)
+        net = arch[config.arch]()
+        writer.add_graph(net, dummy_input)
 
-    device = 'cuda:6' if torch.cuda.is_available() else 'cpu'
+        device = 'cuda:6' if torch.cuda.is_available() else 'cpu'
 
-    dataset_config = datasets.cifar10()
-    num_classess = dataset_config.pop('num_classes')
-    train_loader, eval_loader = create_data_loaders(**dataset_config, config=config)
-    
-    criterion = create_loss_fn(config)
-    net = arch[config.arch]()
-    optimizer = create_optim(net.parameters(), config)
+        dataset_config = datasets.cifar10()
+        num_classess = dataset_config.pop('num_classes')
+        train_loader, eval_loader = create_data_loaders(**dataset_config, config=config)
+        
+        criterion = create_loss_fn(config)
+        net = net.to(device)
+        optimizer = create_optim(net.parameters(), config)
 
-    trainer = Trainer.Trainer(net, optimizer, criterion, device, writer)
-    trainer.loop(config.epochs, train_loader, eval_loader, print_freq=config.print_freq)
-
-    writer.close()
+        trainer = Trainer.Trainer(net, optimizer, criterion, device, writer)
+        trainer.loop(config.epochs, train_loader, eval_loader, print_freq=config.print_freq)
