@@ -17,7 +17,9 @@ def parameters():
         'print_freq': 30,
 
         # Architecture
-        'arch': 'lenet',
+        #'arch': 'lenet',
+        #'arch': 'vgg19',
+        'arch': 'resnet152',
 
         # Optimization
         'loss': 'soft',
