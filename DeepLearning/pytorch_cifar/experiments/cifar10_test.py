@@ -19,7 +19,8 @@ def parameters():
         # Architecture
         #'arch': 'lenet',
         #'arch': 'vgg19',
-        'arch': 'resnet152',
+        #'arch': 'resnet152',
+        'arch': 'preact_resnet152',
 
         # Optimization
         'loss': 'soft',
