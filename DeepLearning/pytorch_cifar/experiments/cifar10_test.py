@@ -32,6 +32,10 @@ def parameters():
         'momentum': 0.9,
         'weight_decay': 5e-4,
         'nesterov': True,
+
+        # lr_schedular
+        'lr_scheduler': 'multistep',
+        'steps': '80,120,300',
     }
 
     yield {**defaults}

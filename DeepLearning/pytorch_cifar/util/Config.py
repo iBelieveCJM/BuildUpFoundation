@@ -42,6 +42,20 @@ def create_parser():
                         metavar='W', help='weight decay (default: 1e-4)')
     parser.add_argument('--nesterov', default=False, type=str2bool,
                         help='use nesterov momentum', metavar='BOOL')
+
+    # LR schecular
+    parser.add_argument('--lr-scheduler', default="cos", type=str, metavar='TYPE',
+                        choices=['cos', 'multistep'])
+    parser.add_argument('--min-lr', '--minimum-learning-rate', default=1e-7, type=float,
+                        metavar='LR', help='minimum learning rate')
+    parser.add_argument('--steps', default="", 
+                        type=lambda x: [int(s) for s in x.split(',')],
+                        metavar='N', help='milestones')
+    parser.add_argument('--gamma', default=0.1, type=float,
+                        help='factor of learning rate decay')
+
+
+
     return parser
 
 

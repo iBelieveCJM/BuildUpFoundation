@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
+from torch.optim import lr_scheduler
 
 import torchvision
 import torchvision.transforms as transforms
@@ -51,9 +52,21 @@ def create_optim(params, config):
         optimizer = optim.ADAM(params, config.lr)
     return optimizer
 
+def create_lr_scheduler(optimizer, config):
+    if config.lr_scheduler == 'cos':
+        scheduler = lr_scheduler.CosineAnnealingLR(optimizer,
+                                                   T_max=config.epochs,
+                                                   eta_min=config.min_lr)
+    elif config.lr_scheduler == 'multistep':
+        if config.steps=="":
+            return None
+        scheduler = lr_scheduler.MultiStepLR(optimizer,
+                                             milestones=config.steps,
+                                             gamma=config.gamma)
+    return scheduler
 
 def main(config):
-    with SummaryWriter(comment=config.arch+'_'+config.dataset) as writer:
+    with SummaryWriter(comment='_{}_{}'.format(config.arch,config.dataset)) as writer:
         dataset_config = datasets.cifar10()
         num_classes = dataset_config.pop('num_classes')
         train_loader, eval_loader = create_data_loaders(**dataset_config, config=config)
@@ -66,6 +79,7 @@ def main(config):
         criterion = create_loss_fn(config)
         net = net.to(device)
         optimizer = create_optim(net.parameters(), config)
+        scheduler = create_lr_scheduler(optimizer, config)
 
         trainer = Trainer.Trainer(net, optimizer, criterion, device, writer)
-        trainer.loop(config.epochs, train_loader, eval_loader, print_freq=config.print_freq)
+        trainer.loop(config.epochs, train_loader, eval_loader, scheduler=scheduler, print_freq=config.print_freq)
