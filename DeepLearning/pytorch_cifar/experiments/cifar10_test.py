@@ -22,7 +22,8 @@ def parameters():
         #'arch': 'resnet152',
         #'arch': 'preact_resnet152',
         #'arch': 'densenet',
-        'arch': 'resnext29_2x64d',
+        #'arch': 'resnext29_2x64d',
+        'arch': 'senet',
 
         # Optimization
         'loss': 'soft',

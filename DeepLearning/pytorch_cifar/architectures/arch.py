@@ -5,6 +5,7 @@ from architectures.resnet import ResNet18, ResNet34, ResNet50, ResNet101, ResNet
 from architectures.preact_resnet import PreActResNet18, PreActResNet34, PreActResNet50, PreActResNet101, PreActResNet152
 from architectures.densenet import DenseNet_cifar, DenseNet121, DenseNet169, DenseNet201, DenseNet161
 from architectures.resnext import ResNeXt29_2x64d,ResNeXt29_4x64d,ResNeXt29_8x64d,ResNeXt29_32x4d
+from architectures.senet import SENet18
 
 arch = {
         'lenet': LeNet,
@@ -31,4 +32,5 @@ arch = {
         'resnext29_4x64d': ResNeXt29_4x64d,
         'resnext29_8x64d': ResNeXt29_8x64d,
         'resnext29_32x4d': ResNeXt29_32x4d,
+        'senet': SENet18,
         }

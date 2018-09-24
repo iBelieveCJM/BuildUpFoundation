@@ -5,6 +5,7 @@ from architectures import resnet
 from architectures import preact_resnet
 from architectures import densenet
 from architectures import resnext
+from architectures import senet
 
 if __name__ == "__main__":
     #lenet.test()
@@ -12,4 +13,5 @@ if __name__ == "__main__":
     #resnet.test()
     #preact_resnet.test()
     #densenet.test()
-    resnext.test()
+    #resnext.test()
+    senet.test()
