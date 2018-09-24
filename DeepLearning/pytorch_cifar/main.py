@@ -53,7 +53,7 @@ def create_optim(params, config):
 
 
 def main(config):
-    with SummaryWriter() as writer:
+    with SummaryWriter(comment=config.arch+'_'+config.dataset) as writer:
         dataset_config = datasets.cifar10()
         num_classes = dataset_config.pop('num_classes')
         train_loader, eval_loader = create_data_loaders(**dataset_config, config=config)
