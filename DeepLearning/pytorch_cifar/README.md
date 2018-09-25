@@ -14,8 +14,10 @@ tensorflow (for visualization)
 
 ## Usage
 
+The demo is in experiments, you can run it as follow:
+
 ```shell
-python -m experiment.cifar10_test
+python -m experiments.cifar10_test
 ```
 
 ## Code Reference
