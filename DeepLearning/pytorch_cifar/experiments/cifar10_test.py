@@ -29,14 +29,14 @@ def parameters():
         'loss': 'soft',
         'optim': 'sgd',
         'epochs': 500,
-        'base_lr': 0.01,
+        'base_lr': 0.1,
         'momentum': 0.9,
         'weight_decay': 5e-4,
         'nesterov': True,
 
         # lr_schedular
         'lr_scheduler': 'multistep',
-        'steps': '80,120,300',
+        'steps': '150,250,350',
     }
 
     yield {**defaults}
