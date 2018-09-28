@@ -7,23 +7,26 @@ from util.Config import parse_dict_args
 def parameters():
     defaults = {
         # Technical details
-        'is_parallel': False,
+        'is_parallel': 'True',
         'workers': 2,
         'checkpoint_epochs': 20,
 
         # Data
         'dataset': 'cifar10',
-        'base_batch_size': 128,
+        'base_batch_size': 64,
         'print_freq': 30,
 
         # Architecture
         #'arch': 'lenet',
         #'arch': 'vgg19',
-        #'arch': 'resnet152',
-        #'arch': 'preact_resnet152',
-        #'arch': 'densenet',
-        #'arch': 'resnext29_2x64d',
-        'arch': 'senet',
+        #'arch': 'resnet18',
+        #'arch': 'preact_resnet18',
+        #'arch': 'densenet121',
+        #'arch': 'resnext29_32x4d',
+        #'arch': 'senet',
+        #'arch': 'dpn26',
+        #'arch': 'shuffleG3',
+        'arch': 'mobileV2',
 
         # Optimization
         'loss': 'soft',
@@ -35,8 +38,11 @@ def parameters():
         'nesterov': True,
 
         # lr_schedular
-        'lr_scheduler': 'multistep',
-        'steps': '150,250,350',
+        'lr_scheduler': 'cos',
+        #'lr_scheduler': 'multistep',
+        'steps': '100,150,200,250,300,350,400,450,480',
+        'gamma': 0.5,
+        'min_lr': 1e-4,
     }
 
     yield {**defaults}
@@ -48,7 +54,8 @@ def run(base_batch_size, base_lr, is_parallel, **kwargs):
         ngpu = 1
     adapted_args = {
         'batch_size': base_batch_size * ngpu,
-        'lr': base_lr * ngpu,
+        'lr': base_lr,
+        'is_parallel': is_parallel,
     }
     args = parse_dict_args(**adapted_args, **kwargs)
     main.main(args)

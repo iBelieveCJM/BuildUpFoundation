@@ -75,9 +75,12 @@ def main(config):
         net = arch[config.arch](num_classes)
         writer.add_graph(net, dummy_input)
 
-        device = 'cuda:6' if torch.cuda.is_available() else 'cpu'
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
         criterion = create_loss_fn(config)
-        net = net.to(device)
+        if config.is_parallel:
+            net = torch.nn.DataParallel(net).to(device)
+        else:
+            net = net.to(device)
         optimizer = create_optim(net.parameters(), config)
         scheduler = create_lr_scheduler(optimizer, config)
 

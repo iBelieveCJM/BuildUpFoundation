@@ -6,6 +6,10 @@ from architectures.preact_resnet import PreActResNet18, PreActResNet34, PreActRe
 from architectures.densenet import DenseNet_cifar, DenseNet121, DenseNet169, DenseNet201, DenseNet161
 from architectures.resnext import ResNeXt29_2x64d,ResNeXt29_4x64d,ResNeXt29_8x64d,ResNeXt29_32x4d
 from architectures.senet import SENet18
+from architectures.dpn import DPN26, DPN92
+from architectures.shufflenet import ShuffleNetG2, ShuffleNetG3
+from architectures.mobilenet import MobileNetV1
+from architectures.mobilenetv2 import MobileNetV2
 
 arch = {
         'lenet': LeNet,
@@ -33,4 +37,10 @@ arch = {
         'resnext29_8x64d': ResNeXt29_8x64d,
         'resnext29_32x4d': ResNeXt29_32x4d,
         'senet': SENet18,
+        'dpn26': DPN26,
+        'dpn92': DPN92,
+        'shuffleG2': ShuffleNetG2,
+        'shuffleG3': ShuffleNetG3,
+        'mobileV1': MobileNetV1,
+        'mobileV2': MobileNetV2,
         }

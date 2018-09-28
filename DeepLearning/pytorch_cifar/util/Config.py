@@ -10,7 +10,7 @@ def create_parser():
     # Technical details
     parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                         help='number of data loading workers (default: 4)')
-    parser.add_argument('--is_parallel', default=False, type=str2bool,
+    parser.add_argument('--is-parallel', default=False, type=str2bool,
                         help='use data parallel', metavar='BOOL')
     parser.add_argument('--checkpoint-epochs', default=1, type=int,
                         metavar='EPOCHS', help='checkpoint frequency in epochs, 0 to turn checkpointing off (default: 1)')
@@ -48,7 +48,7 @@ def create_parser():
                         choices=['cos', 'multistep'])
     parser.add_argument('--min-lr', '--minimum-learning-rate', default=1e-7, type=float,
                         metavar='LR', help='minimum learning rate')
-    parser.add_argument('--steps', default="", 
+    parser.add_argument('--steps', default="0,", 
                         type=lambda x: [int(s) for s in x.split(',')],
                         metavar='N', help='milestones')
     parser.add_argument('--gamma', default=0.1, type=float,
