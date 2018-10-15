@@ -12,36 +12,37 @@ def parameters():
         'checkpoint_epochs': 20,
 
         # Data
-        'dataset': 'cifar10',
+        'dataset': 'cifar100',
         'base_batch_size': 64,
         'print_freq': 30,
 
         # Architecture
         #'arch': 'lenet',
         #'arch': 'vgg19',
-        #'arch': 'resnet18',
+        'arch': 'resnet18',
         #'arch': 'preact_resnet18',
         #'arch': 'densenet121',
         #'arch': 'resnext29_32x4d',
         #'arch': 'senet',
-        #'arch': 'dpn26',
+        #'arch': 'dpn92',
         #'arch': 'shuffleG3',
-        'arch': 'mobileV2',
+        #'arch': 'mobileV2',
 
         # Optimization
         'loss': 'soft',
-        'optim': 'sgd',
+        'optim': 'adam',
         'epochs': 500,
-        'base_lr': 0.1,
+        'base_lr': 0.001,
         'momentum': 0.9,
         'weight_decay': 5e-4,
         'nesterov': True,
 
         # lr_schedular
-        'lr_scheduler': 'cos',
+        #'lr_scheduler': 'none',
         #'lr_scheduler': 'multistep',
         'steps': '100,150,200,250,300,350,400,450,480',
         'gamma': 0.5,
+        'lr_scheduler': 'cos',
         'min_lr': 1e-4,
     }
 

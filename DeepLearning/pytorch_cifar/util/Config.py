@@ -18,7 +18,7 @@ def create_parser():
 
     # Data
     parser.add_argument('--dataset', metavar='DATASET', default='imagenet',
-                        choices=['cifar10'])
+                        choices=['cifar10', 'cifar100'])
     parser.add_argument('-b', '--batch-size', default=256, type=int,
                         metavar='N', help='mini-batch size (default: 256)')
     parser.add_argument('--print-freq', default=20, type=int,
@@ -45,7 +45,7 @@ def create_parser():
 
     # LR schecular
     parser.add_argument('--lr-scheduler', default="cos", type=str, metavar='TYPE',
-                        choices=['cos', 'multistep'])
+                        choices=['cos', 'multistep', 'none'])
     parser.add_argument('--min-lr', '--minimum-learning-rate', default=1e-7, type=float,
                         metavar='LR', help='minimum learning rate')
     parser.add_argument('--steps', default="0,", 

@@ -15,20 +15,17 @@ from architectures.arch import arch
 def create_data_loaders(train_transform, 
                         eval_transform, 
                         datadir,
+                        Data,
                         config):
-    trainset = torchvision.datasets.CIFAR10(root=datadir,
-                                            train=True,
-                                            download=True,
-                                            transform=train_transform)
+    trainset = Data(root=datadir, train=True, download=True,
+                    transform=train_transform)
     train_loader = torch.utils.data.DataLoader(trainset,
                                                batch_size=config.batch_size,
                                                shuffle=True,
                                                num_workers=config.workers)
 
-    evalset = torchvision.datasets.CIFAR10(root=datadir,
-                                           train=False,
-                                           download=True,
-                                           transform=eval_transform)
+    evalset = Data(root=datadir, train=False, download=True,
+                   transform=eval_transform)
     eval_loader = torch.utils.data.DataLoader(evalset,
                                               batch_size=config.batch_size,
                                               shuffle=False,
@@ -49,7 +46,7 @@ def create_optim(params, config):
                               weight_decay=config.weight_decay,
                               nesterov=config.nesterov)
     elif config.optim == 'adam':
-        optimizer = optim.ADAM(params, config.lr)
+        optimizer = optim.Adam(params, config.lr)
     return optimizer
 
 def create_lr_scheduler(optimizer, config):
@@ -63,11 +60,13 @@ def create_lr_scheduler(optimizer, config):
         scheduler = lr_scheduler.MultiStepLR(optimizer,
                                              milestones=config.steps,
                                              gamma=config.gamma)
+    elif config.lr_scheduler == 'none':
+        scheduler = None
     return scheduler
 
 def main(config):
     with SummaryWriter(comment='_{}_{}'.format(config.arch,config.dataset)) as writer:
-        dataset_config = datasets.cifar10()
+        dataset_config = datasets.cifar10() if config.dataset=='cifar10' else datasets.cifar100()
         num_classes = dataset_config.pop('num_classes')
         train_loader, eval_loader = create_data_loaders(**dataset_config, config=config)
 

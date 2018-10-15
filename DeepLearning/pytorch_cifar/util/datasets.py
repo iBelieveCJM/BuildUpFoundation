@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import torchvision.transforms as transforms
+from torchvision.datasets import CIFAR10, CIFAR100
 
 def cifar10():
     channel_stats = dict(mean=[0.4914, 0.4822, 0.4465],
@@ -20,8 +21,32 @@ def cifar10():
         'train_transform': train_transform,
         'eval_transform': eval_transform,
         'datadir': './data/Cifar10',
+        'Data': CIFAR10,
         'num_classes': 10
     }
+
+def cifar100():
+    channel_stats = dict(mean=[0.4914, 0.4822, 0.4465],
+                         std=[0.2470,  0.2435,  0.2616])
+    train_transform = transforms.Compose([
+        RandomTranslateWithReflect(4),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize(**channel_stats)
+    ])
+    eval_transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(**channel_stats)
+    ])
+
+    return {
+        'train_transform': train_transform,
+        'eval_transform': eval_transform,
+        'datadir': './data/Cifar100',
+        'Data': CIFAR100,
+        'num_classes': 100
+    }
+
 
 class RandomTranslateWithReflect:
     """Translate image randomly
