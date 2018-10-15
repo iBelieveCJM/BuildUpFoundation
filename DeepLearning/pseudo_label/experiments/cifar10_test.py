@@ -8,14 +8,15 @@ from util.Config import parse_dict_args
 def parameters():
     defaults = {
         # Technical details
-        'is_parallel': False,
+        'is_parallel': True,
         'workers': 2,
+        'gpu': 3,
         'checkpoint_epochs': 20,
 
         # Data
         'dataset': 'cifar10',
-        'base_batch_size': 64,
-        'base_labeled_batch_size': 32,
+        'base_batch_size': 128,
+        'base_labeled_batch_size': 64,
         'print_freq': 30,
         'train_subdir': 'train+val',
         'eval_subdir': 'test',
@@ -57,7 +58,7 @@ def parameters():
     }
 
     for n_labels in [4000]:
-        for data_seed in range(10, 11):
+        for data_seed in range(10, 20):
             yield{
                 **defaults,
                 'n_labels': n_labels,

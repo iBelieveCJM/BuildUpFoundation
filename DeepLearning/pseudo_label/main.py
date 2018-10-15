@@ -6,6 +6,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
 from torch.optim import lr_scheduler
+from torch.utils.data.sampler import BatchSampler, SubsetRandomSampler
 
 import torchvision
 import torchvision.transforms as transforms
@@ -27,11 +28,13 @@ def create_data_loaders(train_transform,
             labels = dict(line.split(' ') for line in f.read().splitlines())
         labeled_idxs, unlabeled_idxs = datasets.relabel_dataset(trainset, labels)
     assert len(trainset.imgs) == len(labeled_idxs)+len(unlabeled_idxs)
-    if config.labeled_batch_size:
-        if len(unlabeled_idxs) == 0:
-            unlabeled_idxs = labeled_idxs
+    if config.labeled_batch_size < config.batch_size:
+        assert len(unlabeled_idxs)>0
         batch_sampler = datasets.TwoStreamBatchSampler(
             unlabeled_idxs, labeled_idxs, config.batch_size, config.labeled_batch_size)
+    else:
+        sampler = SubsetRandomSampler(labeled_idxs)
+        batch_sampler = BatchSampler(sampler, config.batch_size, drop_last=True)
     train_loader = torch.utils.data.DataLoader(trainset,
                                                batch_sampler=batch_sampler,
                                                num_workers=config.workers,
@@ -89,11 +92,12 @@ def main(config):
         net = arch[config.arch](num_classes)
         writer.add_graph(net, dummy_input)
 
-        device = 'cuda:2' if torch.cuda.is_available() else 'cpu'
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
         criterion = create_loss_fn(config)
         if config.is_parallel:
             net = torch.nn.DataParallel(net).to(device)
         else:
+            device = 'cuda:{}'.format(config.gpu) if torch.cuda.is_available() else 'cpu'
             net = net.to(device)
         optimizer = create_optim(net.parameters(), config)
         scheduler = create_lr_scheduler(optimizer, config)

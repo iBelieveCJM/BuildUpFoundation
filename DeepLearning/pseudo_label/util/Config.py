@@ -14,7 +14,9 @@ def create_parser():
                         help='use data parallel', metavar='BOOL')
     parser.add_argument('--checkpoint-epochs', default=1, type=int,
                         metavar='EPOCHS', help='checkpoint frequency in epochs, 0 to turn checkpointing off (default: 1)')
-    
+    parser.add_argument('-g', '--gpu', default=0, type=int, metavar='N',
+                        help='gpu number (default: 0)')
+   
 
     # Data
     parser.add_argument('--dataset', metavar='DATASET', default='imagenet',
@@ -25,7 +27,7 @@ def create_parser():
                         metavar='N', help='batch size for labeled data (default: 128)')
     parser.add_argument('--print-freq', default=20, type=int,
                         metavar='N', help='display frequence (default: 20)')
-    parser.add_argument('--labels', type=str, metavar='DIR')
+    parser.add_argument('--labels', type=str, default='', metavar='DIR')
     parser.add_argument('--train-subdir', type=str, metavar='DIR')
     parser.add_argument('--eval-subdir', type=str, metavar='DIR')
 

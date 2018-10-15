@@ -37,7 +37,7 @@ class PseudoLabel:
                 with torch.no_grad():
                     pseudo_labeled = outputs.max(1)[1]
                     r = self.confidence_level(feats) if self.confident else 1
-                unlabeled_loss = torch.sum(targets.eq(NO_LABEL).float()* r* self.loss_fn(outputs, pseudo_labeled)) / (data.size(0)-labeled_bs)
+                unlabeled_loss = torch.sum(targets.eq(NO_LABEL).float()* r* self.loss_fn(outputs, pseudo_labeled)) / (data.size(0)-labeled_bs +1e-10)
                 #unlabeled_loss = torch.sum(self.loss_fn(outputs, pseudo_labeled)) / data.size(0)
                 loss = labeled_loss + self.unlabeled_weight()*unlabeled_loss
                 self.optimizer.zero_grad()
