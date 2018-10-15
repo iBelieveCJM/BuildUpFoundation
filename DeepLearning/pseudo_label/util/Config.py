@@ -59,7 +59,15 @@ def create_parser():
     parser.add_argument('--gamma', default=0.1, type=float,
                         help='factor of learning rate decay')
 
-
+    # Pseudo-Label
+    parser.add_argument('--t1', default=100, type=float, metavar='M',
+                        help='T1')
+    parser.add_argument('--t2', default=600, type=float, metavar='M',
+                        help='T1')
+    parser.add_argument('--af', default=0.3, type=float, metavar='M',
+                        help='af')
+    parser.add_argument('--confident', default=False, type=str2bool,
+                        help='use confidence level', metavar='BOOL')
 
     return parser
 

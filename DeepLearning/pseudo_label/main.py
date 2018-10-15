@@ -51,7 +51,7 @@ def create_loss_fn(config):
     if config.loss == 'mse':
         criterion = nn.mseloss()
     elif config.loss == 'soft':
-        criterion = nn.CrossEntropyLoss(ignore_index=NO_LABEL, reduce=False)
+        criterion = nn.CrossEntropyLoss(ignore_index=NO_LABEL, reduction='none')
     return criterion
 
 def create_optim(params, config):
@@ -98,5 +98,5 @@ def main(config):
         optimizer = create_optim(net.parameters(), config)
         scheduler = create_lr_scheduler(optimizer, config)
 
-        trainer = Trainer.PseudoLabel(net, optimizer, criterion, config.labeled_batch_size, device, writer)
+        trainer = Trainer.PseudoLabel(net, optimizer, criterion, device, config, writer)
         trainer.loop(config.epochs, train_loader, eval_loader, scheduler=scheduler, print_freq=config.print_freq)

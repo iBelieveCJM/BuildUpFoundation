@@ -3,9 +3,11 @@ from pathlib import Path
 import torch
 from util.dist import eucl_dist
 
+from util.datasets import NO_LABEL
+
 class PseudoLabel:
 
-    def __init__(self, model, optimizer, loss_fn, labeled_bs, device, writer=None, save_dir=None, save_freq=5):
+    def __init__(self, model, optimizer, loss_fn, device, config, writer=None, save_dir=None, save_freq=5):
         self.model = model # model.to(device)
         self.optimizer = optimizer
         self.loss_fn = loss_fn
@@ -13,19 +15,12 @@ class PseudoLabel:
         self.save_freq = save_freq
         self.device = device
         self.writer = writer
-        self.labeled_bs = labeled_bs
+        self.labeled_bs = config.labeled_batch_size
+        self.confident = config.confident
         self.global_step = 0
         self.epoch = 0
-        self.T1, self.T2 = 100, 600
-        self.af = 0.3
-
-    def unlabeled_weight(self):
-        alpha = 0.0
-        if self.epoch > self.T1:
-            alpha = (self.epoch-self.T1) / (self.T2-self.T1)*self.af
-            if self.epoch > self.T2:
-                alpha = af
-        return alpha
+        self.T1, self.T2 = config.t1, config.t2
+        self.af = config.af
         
     def _iteration(self, data_loader, print_freq, is_train=True):
         loop_loss = []
@@ -35,13 +30,14 @@ class PseudoLabel:
         for batch_idx, (data, targets) in enumerate(data_loader):
             self.global_step += batch_idx
             data, targets = data.to(self.device), targets.to(self.device)
-            outputs = self.model(data)
+            outputs, feats = self.model(data)
             if is_train:
                 labeled_bs = self.labeled_bs
                 labeled_loss = torch.sum(self.loss_fn(outputs, targets)) / labeled_bs
                 with torch.no_grad():
                     pseudo_labeled = outputs.max(1)[1]
-                unlabeled_loss = torch.sum(targets.eq(NO_LABEL) * self.loss_fn(outputs, pseudo_labeled)) / (data.size(0)-labeled_bs)
+                    r = self.confidence_level(feats) if self.confident else 1
+                unlabeled_loss = torch.sum(targets.eq(NO_LABEL).float()* r* self.loss_fn(outputs, pseudo_labeled)) / (data.size(0)-labeled_bs)
                 #unlabeled_loss = torch.sum(self.loss_fn(outputs, pseudo_labeled)) / data.size(0)
                 loss = labeled_loss + self.unlabeled_weight()*unlabeled_loss
                 self.optimizer.zero_grad()
@@ -49,6 +45,7 @@ class PseudoLabel:
                 self.optimizer.step()
             else:
                 labeled_bs = data.size(0)
+                labeled_loss = unlabeled_loss = torch.Tensor([0])
                 loss = torch.mean(self.loss_fn(outputs, targets))
             labeled_n += labeled_bs
 
@@ -56,7 +53,7 @@ class PseudoLabel:
             acc = targets.eq(outputs.max(1)[1]).sum().item()
             accuracy.append(acc)
             if print_freq>0 and (batch_idx%print_freq)==0:
-                print(f"[{mode}]loss[{batch_idx:<3}]\t loss: {loss.item():.3f}\t Acc: {acc/labeled_bs:.3%}")
+                print(f"[{mode}]loss[{batch_idx:<3}]\t labeled loss: {labeled_loss.item():.3f}\t unlabeled loss: {unlabeled_loss.item():.3f}\t loss: {loss.item():.3f}\t Acc: {acc/labeled_bs:.3%}")
             if self.writer:
                 self.writer.add_scalar(mode+'_global_loss', loss.item(), self.global_step)
                 self.writer.add_scalar(mode+'_global_accuracy', acc/labeled_bs, self.global_step)
@@ -66,10 +63,35 @@ class PseudoLabel:
             self.writer.add_scalar(mode+'_epoch_accuracy', sum(accuracy)/labeled_n, self.epoch)
 
         return loop_loss, accuracy
+        
+    def unlabeled_weight(self):
+        alpha = 0.0
+        if self.epoch > self.T1:
+            alpha = (self.epoch-self.T1) / (self.T2-self.T1)*self.af
+            if self.epoch > self.T2:
+                alpha = af
+        return alpha
+        
+    def confidence_level(self, feats):
+        """ Compute the confidence level for sample
+
+        inituition:
+            1.Outliers and highly uncertain samples usually reside in 
+              sparsely populated areas in the features space
+            2.Samples located in densely populated areas are more likely 
+              to be assigned correct labels
+
+        reference:
+            Transductive Semi-supervised Deep Learning using Min-Max Features
+        """
+        dist = eucl_dist(feats, feats)
+        dist = dist.sum(dim=1)
+        return 1.0 - (dist / dist.max())
+
 
     def train(self, data_loader, print_freq=20):
         self.model.train()
-        with torch.enable_grad(): #torch.enable_grad():
+        with torch.enable_grad():
             loss, correct = self._iteration(data_loader, print_freq)
 
     def test(self, data_loader, print_freq=10):

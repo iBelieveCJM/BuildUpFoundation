@@ -48,6 +48,12 @@ def parameters():
         'gamma': 0.5,
         'lr_scheduler': 'cos',
         'min_lr': 1e-4,
+        
+        # Pseudo-Label
+        't1': 100,
+        't2': 600,
+        'af': 0.3,
+        'confident': True,
     }
 
     for n_labels in [4000]:
