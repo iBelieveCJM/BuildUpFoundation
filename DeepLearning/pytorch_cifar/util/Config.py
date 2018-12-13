@@ -10,7 +10,7 @@ def create_parser():
     # Technical details
     parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                         help='number of data loading workers (default: 4)')
-    parser.add_argument('--is_parallel', default=False, type=str2bool,
+    parser.add_argument('--is-parallel', default=False, type=str2bool,
                         help='use data parallel', metavar='BOOL')
     parser.add_argument('--checkpoint-epochs', default=1, type=int,
                         metavar='EPOCHS', help='checkpoint frequency in epochs, 0 to turn checkpointing off (default: 1)')
@@ -18,7 +18,7 @@ def create_parser():
 
     # Data
     parser.add_argument('--dataset', metavar='DATASET', default='imagenet',
-                        choices=['cifar10'])
+                        choices=['cifar10', 'cifar100'])
     parser.add_argument('-b', '--batch-size', default=256, type=int,
                         metavar='N', help='mini-batch size (default: 256)')
     parser.add_argument('--print-freq', default=20, type=int,
@@ -42,6 +42,20 @@ def create_parser():
                         metavar='W', help='weight decay (default: 1e-4)')
     parser.add_argument('--nesterov', default=False, type=str2bool,
                         help='use nesterov momentum', metavar='BOOL')
+
+    # LR schecular
+    parser.add_argument('--lr-scheduler', default="cos", type=str, metavar='TYPE',
+                        choices=['cos', 'multistep', 'none'])
+    parser.add_argument('--min-lr', '--minimum-learning-rate', default=1e-7, type=float,
+                        metavar='LR', help='minimum learning rate')
+    parser.add_argument('--steps', default="0,", 
+                        type=lambda x: [int(s) for s in x.split(',')],
+                        metavar='N', help='milestones')
+    parser.add_argument('--gamma', default=0.1, type=float,
+                        help='factor of learning rate decay')
+
+
+
     return parser
 
 

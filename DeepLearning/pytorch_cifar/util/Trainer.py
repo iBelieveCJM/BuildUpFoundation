@@ -30,7 +30,7 @@ class Trainer:
                 self.optimizer.step()
 
             loop_loss.append(loss.item() / len(data_loader))
-            acc = (outputs.max(1)[1]==targets).sum().item()
+            acc = targets.eq(outputs.max(1)[1]).sum().item()
             accuracy.append(acc)
             if print_freq>0 and (batch_idx%print_freq)==0:
                 print(f"[{mode}]loss[{batch_idx:<3}]\t loss: {loss.item():.3f}\t Acc: {acc/data.size(0):.3%}")
