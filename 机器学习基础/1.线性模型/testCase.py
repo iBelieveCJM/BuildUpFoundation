@@ -46,32 +46,38 @@ def testModel(model, x_train, y_train, x_test, y_test):
     print( 'mean squared error: {}'.format(mean_squared_error(y_test, y_pred)) )
     print( 'Variance score: {}'.format(r2_score(y_test, y_pred)) )
     
+def test_sklearn_linear_regression(*data):
+    """sklearn linear regression (OLS)"""
+    print('\nsklearn linear regression (OLS)')
+    reg = linear_model.LinearRegression()
+    testModel(reg, *data)
+    
+def test_my_linear_regression(*data):
+    """my linear ridge regression (OLS)"""
+    print('\nmy linear regresssion (OLS)')
+    myReg = LinearReg()
+    testModel(myReg, *data)
+    
+def test_sklearn_ridge_regression(alpha, *data):
+    """sklearn linear ridge regression"""
+    print('\nsklearn linear ridge regression')
+    reg = linear_model.Ridge(alpha=alpha)
+    testModel(reg, *data)
+    
+def test_my_ridge_regression(alpha, *data):
+    """my linear ridge regression"""
+    print('\nmy linear ridge regresssion')
+    myReg = LinearRegL2(lambda_=alpha)
+    testModel(myReg, *data)
+    
 if __name__ == '__main__':
     ## load data
     n_train = 10
     print('the number of train data is {}'.format(n_train))
     data = load_data(load_iris, n_train)    # the shape of iris.data is (150,4)
     
-    print('\nOLS TEST' + '-'*30)
+    test_sklearn_linear_regression(*data)
+    test_my_linear_regression(*data)
     
-    ## sklearn linear regression
-    print('\nsklearn linear regression')
-    reg = linear_model.LinearRegression()
-    testModel(reg, *data)
-    
-    ## my linear regression
-    print('\nmy linear regresssion')
-    myReg = LinearReg()
-    testModel(myReg, *data)
-    
-    print('\nL2 TEST' + '-'*30)
-    
-    ## sklearn linear regression
-    print('\nsklearn linear regression')
-    reg = linear_model.Ridge(alpha=0.2)
-    testModel(reg, *data)
-    
-    ## my linear regression
-    print('\nmy linear regresssion')
-    myReg = LinearRegL2(lambda_=0.2)
-    testModel(myReg, *data)
+    test_sklearn_ridge_regression(0.2, *data)
+    test_my_ridge_regression(0.2, *data)
