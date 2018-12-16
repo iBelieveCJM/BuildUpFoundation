@@ -4,6 +4,8 @@
 """
 
 import numpy as np
+
+from timeTest import time_test
 from logistic_regression import logistic_regression
 
 def shuffle_data(x, y):
@@ -30,13 +32,13 @@ def threshold(x, t):
     x[x<=t] = 0
     return x.astype(np.int32)
     
-    
-    
 if __name__ == '__main__':
-    x_train,y_train, x_test,y_test = load_data(100, 100)
+    x_train,y_train, x_test,y_test = load_data(n_train=100, n_test=100)
     
     logistic = logistic_regression()
-    logistic.fit_visual(x_train, y_train)
+    wrap_fit = time_test(logistic.fit)
+    wrap_fit(x_train, y_train)
+    #logistic.fit_visual(x_train, y_train)
     
     pred = logistic.predict(x_train)
     pred = threshold(pred, 0.5)
