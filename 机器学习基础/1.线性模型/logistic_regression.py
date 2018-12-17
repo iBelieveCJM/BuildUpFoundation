@@ -29,7 +29,9 @@ class logistic_regression():
         # data process: w*X+b ==> w_*X_temp, that is w_=[w,b], X_temp=[X,1]
         num_x = np.shape(X)[0]
         X_temp = np.concatenate((X, np.ones((num_x, 1))), axis=1)
-        W_temp = np.random.randn(X_temp.shape[1])
+        W_temp = np.random.randn(X_temp.shape[1]) # zero initialization?
+        ## XTX checks is necessary ?
+        # gradient descent
         for _ in range(maxIter):
             W_temp -= lr*self.gradW(X_temp, y, W_temp)
         self.coef_ = W_temp[:-1]

@@ -7,6 +7,7 @@ import numpy as np
 
 from timeTest import time_test
 from logistic_regression import logistic_regression
+from linear_regression_sgd import LinearRegSGD
 
 def shuffle_data(x, y):
     indexs = np.arange(y.shape[0])
@@ -32,13 +33,13 @@ def threshold(x, t):
     x[x<=t] = 0
     return x.astype(np.int32)
     
-if __name__ == '__main__':
-    x_train,y_train, x_test,y_test = load_data(n_train=100, n_test=100)
-    
+def test_logistic(x_train,y_train, x_test,y_test, is_visual=True):
     logistic = logistic_regression()
-    wrap_fit = time_test(logistic.fit)
-    wrap_fit(x_train, y_train)
-    #logistic.fit_visual(x_train, y_train)
+    if is_visual:
+        logistic.fit_visual(x_train, y_train)
+    else:    
+        wrap_fit = time_test(logistic.fit)
+        wrap_fit(x_train, y_train)
     
     pred = logistic.predict(x_train)
     pred = threshold(pred, 0.5)
@@ -47,3 +48,8 @@ if __name__ == '__main__':
     pred = logistic.predict(x_test)
     pred = threshold(pred, 0.5)
     print(np.sum(pred==y_test.astype(np.int32)))
+    
+if __name__ == '__main__':
+    data = load_data(n_train=100, n_test=100)
+    
+    test_logistic(*data)

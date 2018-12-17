@@ -10,6 +10,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 from timeTest import time_test
 from linear_regression import LinearReg
+from linear_regression_sgd import LinearRegSGD
 from linear_regression_l2 import LinearRegL2
 
 def shuffle_data(data):
@@ -58,6 +59,12 @@ def test_my_linear_regression(*data):
     myReg = LinearReg()
     testModel(myReg, *data)
     
+def test_my_linear_regression_sgd(*data):
+    """my linear ridge regression (SGD)"""
+    print('\nmy linear regresssion (SGD)')
+    myReg = LinearRegSGD()
+    testModel(myReg, *data)
+    
 def test_sklearn_ridge_regression(alpha, *data):
     """sklearn linear ridge regression"""
     print('\nsklearn linear ridge regression')
@@ -78,6 +85,7 @@ if __name__ == '__main__':
     
     test_sklearn_linear_regression(*data)
     test_my_linear_regression(*data)
+    test_my_linear_regression_sgd(*data)
     
     test_sklearn_ridge_regression(0.2, *data)
     test_my_ridge_regression(0.2, *data)
