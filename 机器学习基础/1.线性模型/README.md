@@ -9,7 +9,7 @@ f(x) = w1*x1 + w2*x2 + ... + wd*xd + b
 
 一般用向量表达：
 ```python
-f(x) = w.T * x + b
+f(x) = x * w + b
 ```
 其中参数 **w** 是一个 d 维的向量，当 **w** 和 b 学得之后，模型就得以确定
 
@@ -17,3 +17,36 @@ f(x) = w.T * x + b
 
 &emsp; 此外，由于 **w** 直观表达了各属性在预测中的重要性，因此线性模型有很好的可解释性（*comprehensibility*）
 
+## 1.2 线性回归
+
+**输入：** 数据矩阵 **x**.shape(n_sample, dim)，预测值向量 **y**.shape(n_sample)，则线性回归的向量矩阵表达为
+```python
+f(x) = x*w + b
+```
+其中，**w**.shape(dim,1)为参数向量，b为偏置(值)。
+
+&emsp;令**W**=[**w**;b]，**X=[x,1]**（**1**是 n_sample 维向量），则线性模型可以写成
+```python
+f(X) = X*W
+```
+
+&emsp;线性模型的求解通过最小化目标函数学习参数
+```python
+J(W, X, y) = mean(sum( norm( f(X)-y ,2) ))
+           = mean(sum( norm( X*W-Y， 2) ))
+```
+
+&emsp;求解上述目标函数对参数**W**的偏导
+```python
+partial(J(W,X,y), W) = X.T *(X*W - y)
+```
+
+&emsp;令上述偏导为0，可求得参数W的解析解
+```python
+partial(J(W,X,y), W) = 0
+      X.T *(X*W - y) = 0
+     X.T*X*W - X.T*y = 0
+             X.T*X*W = X.T*y
+                   W = inv(X.T*X) *X.T*y
+```
+**注：** 仅当 **X.T\*X** 可逆时，上述解析解有解。
