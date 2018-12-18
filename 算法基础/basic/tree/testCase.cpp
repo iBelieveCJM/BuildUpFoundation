@@ -14,6 +14,10 @@ treeAlgo algo = preOrder;
 #include"midOrder.hpp"
 treeAlgo algo_recursive = midOrder_recursive;
 treeAlgo algo = midOrder;
+#elif POST_ORDER
+#include"postOrder.hpp"
+treeAlgo algo_recursive = postOrder_recursive;
+treeAlgo algo = postOrder2;
 #endif
 
 void emptyTree(){
