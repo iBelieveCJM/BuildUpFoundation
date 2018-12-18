@@ -23,7 +23,6 @@ class LassoCorrdinateDescent():
         z = np.sum(X_temp*X_temp, axis=0)
         for _ in range(maxIter):
             for d in range(X_temp.shape[1]):
-                #w = W_temp[d]
                 W_temp[d] = 0
                 p = X_temp[:,d].dot(y - X_temp.dot(W_temp))
                 if p < -self.alpha/2:
