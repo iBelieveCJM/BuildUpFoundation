@@ -13,7 +13,7 @@ class LassoCorrdinateDescent():
         self.alpha = alpha
         
     def fit(self, X, y, maxIter=1000):
-        """ linear regression with OLS 
+        """ lasso regression with coordinate descent
         """
         # data process: w*X+b ==> w_*X_temp, that is w_ = [w,b], X_temp=[X,1]
         num_x = np.shape(X)[0]
