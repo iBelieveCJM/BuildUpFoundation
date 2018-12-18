@@ -12,6 +12,7 @@ from timeTest import time_test
 from linear_regression import LinearReg
 from linear_regression_sgd import LinearRegSGD
 from linear_regression_l2 import LinearRegL2
+from lasso_coordinate_descent import LassoCorrdinateDescent
 
 def shuffle_data(data):
     indexs = np.arange(len(data.target))
@@ -77,6 +78,18 @@ def test_my_ridge_regression(alpha, *data):
     myReg = LinearRegL2(lambda_=alpha)
     testModel(myReg, *data)
     
+def test_sklearn_lasso_regression(alpha, *data):
+    """sklearn lasso regression"""
+    print('\nsklearn lasso regression')
+    reg = linear_model.Lasso(max_iter=100, alpha=alpha)
+    testModel(reg, *data)
+    
+def test_my_lasso_cd(alpha, *data):
+    """my linear ridge regression"""
+    print('\nmy lasso regresssion with coordinate descent')
+    myReg = LassoCorrdinateDescent(alpha=alpha)
+    testModel(myReg, *data)
+    
 if __name__ == '__main__':
     ## load data
     n_train = 10
@@ -87,5 +100,10 @@ if __name__ == '__main__':
     test_my_linear_regression(*data)
     test_my_linear_regression_sgd(*data)
     
-    test_sklearn_ridge_regression(0.2, *data)
-    test_my_ridge_regression(0.2, *data)
+    lam = 0.2
+    test_sklearn_ridge_regression(lam, *data)
+    test_my_ridge_regression(lam, *data)
+    
+    alpha = 1.0
+    test_sklearn_lasso_regression(alpha, *data)
+    test_my_lasso_cd(alpha, *data)

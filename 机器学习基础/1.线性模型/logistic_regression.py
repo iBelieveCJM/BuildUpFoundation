@@ -67,7 +67,7 @@ class logistic_regression():
         
     def predict(self, X):
         if self.coef_ is None:
-            print('error: the model had not been trainedd')
+            print('error: the model had not been trained')
             return #should raise the expection
         return sigmod(self.coef_.dot(X.T) + self.intercept_)
             

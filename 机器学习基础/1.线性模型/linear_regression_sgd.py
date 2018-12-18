@@ -23,7 +23,7 @@ class LinearRegSGD():
         # data process: w*X+b ==> w_*X_temp, that is w_ = [w,b], X_temp=[X,1]
         num_x = np.shape(X)[0]
         X_temp = np.concatenate((X, np.ones((num_x, 1))), axis=1)
-        W_temp = np.np.random.randn(X_temp.shape[1]) # zero initialization?
+        W_temp = np.random.randn(X_temp.shape[1]) # zero initialization?
         ## XTX checks is necessary ?
         # gradient descent
         for _ in range(maxIter):
@@ -33,7 +33,7 @@ class LinearRegSGD():
         
     def predict(self, X):
         if self.coef_ is None:
-            print('error: the model had not been trainedd')
+            print('error: the model had not been trained')
             return #should raise the expection
         return self.coef_.dot(X.T) + self.intercept_
         
