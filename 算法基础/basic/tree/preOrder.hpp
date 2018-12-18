@@ -16,13 +16,13 @@ std::string preOrder_recursive(TreeNode* root){
 static void _preOrder_recursive(TreeNode* root, std::string& ret){
     if(root!=nullptr){
         ret += root->val;
-    }
-    if(root->left != nullptr){
-        _preOrder_recursive(root->left, ret);
-    }
-    if(root->right != nullptr){
-        _preOrder_recursive(root->right, ret);
-    }
+        if(root->left != nullptr){
+            _preOrder_recursive(root->left, ret);
+        }
+        if(root->right != nullptr){
+            _preOrder_recursive(root->right, ret);
+        }
+    }    
 }
 
 std::string preOrder2(TreeNode* root){

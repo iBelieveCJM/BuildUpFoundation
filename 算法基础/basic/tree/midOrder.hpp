@@ -14,14 +14,14 @@ std::string midOrder_recursive(TreeNode* root){
 }
 
 static void _midOrder_recursive(TreeNode* root, std::string& ret){
-    if(root->left != nullptr){
-        _midOrder_recursive(root->left, ret);
-    }
     if(root!=nullptr){
+        if(root->left != nullptr){
+            _midOrder_recursive(root->left, ret);
+        }
         ret += root->val;
-    }
-    if(root->right != nullptr){
-        _midOrder_recursive(root->right, ret);
+        if(root->right != nullptr){
+            _midOrder_recursive(root->right, ret);
+        }
     }
 }
 
