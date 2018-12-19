@@ -10,6 +10,7 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 from timeTest import time_test
 from linear_regression import LinearReg
+from linear_regression_gd import LinearRegGD
 from linear_regression_sgd import LinearRegSGD
 from linear_regression_l2 import LinearRegL2
 from lasso_coordinate_descent import LassoCorrdinateDescent
@@ -60,6 +61,12 @@ def test_my_linear_regression(*data):
     myReg = LinearReg()
     testModel(myReg, *data)
     
+def test_my_linear_regression_gd(*data):
+    """my linear ridge regression (GD)"""
+    print('\nmy linear regresssion (GD)')
+    myReg = LinearRegGD()
+    testModel(myReg, *data)
+    
 def test_my_linear_regression_sgd(*data):
     """my linear ridge regression (SGD)"""
     print('\nmy linear regresssion (SGD)')
@@ -98,6 +105,7 @@ if __name__ == '__main__':
     
     test_sklearn_linear_regression(*data)
     test_my_linear_regression(*data)
+    test_my_linear_regression_gd(*data)
     test_my_linear_regression_sgd(*data)
     
     lam = 0.2
