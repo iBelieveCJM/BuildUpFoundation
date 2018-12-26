@@ -9,6 +9,18 @@ from timeTest import time_test
 from logistic_regression import logistic_regression
 from linear_regression_sgd import LinearRegSGD
 
+from functools import wraps
+def time_test(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print('--- {}ing starting...'.format(func.__name__))
+        start = time.clock()    # use clock() instead of time() in windows
+        result = func(*args, **kwargs)
+        end = time.clock()
+        print('--- {} costs {}'.format(func.__name__, end-start))
+        return result
+    return wrapper 
+
 def shuffle_data(x, y):
     indexs = np.arange(y.shape[0])
     np.random.shuffle(indexs)
