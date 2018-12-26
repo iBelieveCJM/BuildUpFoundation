@@ -6,6 +6,7 @@ import time
 import numpy as np
 from simple_smo import simpleSMO
 from platt_smo import plattSMO
+from platt_kernel_smo import plattKernelSMO
 from sklearn.svm import SVC
 
 from functools import wraps
@@ -42,6 +43,7 @@ def load_data(n_train, n_test):
 def test_svm(x_train,y_train, x_test,y_test, is_visual=False):
     #svm = simpleSMO(C=1.0, eps=1e-3)
     svm = plattSMO(C=0.9, eps=1e-3)
+    #svm = plattKernelSMO(C=1.0, eps=1e-3, kernelArgs='linear')
     #svm = SVC(gamma='auto')
     wrap_fit = time_test(svm.fit)
     wrap_fit(x_train, y_train)
