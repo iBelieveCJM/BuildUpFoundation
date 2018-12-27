@@ -42,8 +42,8 @@ def load_data(n_train, n_test):
 
 def test_svm(x_train,y_train, x_test,y_test, is_visual=False):
     #svm = simpleSMO(C=1.0, eps=1e-3)
-    svm = plattSMO(C=0.9, eps=1e-3)
-    #svm = plattKernelSMO(C=1.0, eps=1e-3, kernelArgs='linear')
+    #svm = plattSMO(C=0.9, eps=1e-3)
+    svm = plattKernelSMO(C=1.0, eps=1e-3)
     #svm = SVC(gamma='auto')
     wrap_fit = time_test(svm.fit)
     wrap_fit(x_train, y_train)
@@ -54,7 +54,7 @@ def test_svm(x_train,y_train, x_test,y_test, is_visual=False):
     pred = svm.predict(x_test)
     print(np.sum(pred==y_test.astype(np.int32)))
     
-    print(svm.suportVecIdx())
+    print(svm.supportVecIdx())
     print(svm.w_)
     print(svm.b_)
     

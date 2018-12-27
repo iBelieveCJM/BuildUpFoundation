@@ -5,14 +5,6 @@
 
 import numpy as np
 
-def rbf(data, sigma):
-    """rbf"""
-    dist = eucl_dist(data, data)
-    return np.exp(-0.5* dist / sigma**2)
-
-def linear(data):
-    return data.dot(data.T)
-
 def eucl_dist(x, y):
     """ Compute Pairwise Squared Euclidean Distance
     Input:
@@ -25,3 +17,15 @@ def eucl_dist(x, y):
     y2 = np.tile(np.sum(y**2, axis=1, keepdims=True), (1,x.shape[0])).T
     xy = x.dot(y.T)
     return x2 - 2*xy + y2
+
+def rbf(sigma):
+    """rbf"""
+    def warpper(data1, data2):
+        dist = eucl_dist(data1, data2)
+        return np.exp(-0.5* dist / sigma**2)
+    return warpper
+
+def linear():
+    def warpper(data1, data2):
+        return data1.dot(data2.T)
+    return warpper

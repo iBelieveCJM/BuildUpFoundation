@@ -12,17 +12,21 @@ class plattKernelSMO():
     def __init__(self, C, eps, kernelArgs=('rbf', 1.0)):
         self.alphas = None
         self.eCache = None
-        self.kArgs = kernelArgs
         self.w_ = None
+        self.supportVecs = None
+        self.supportVecLabels = None
+        self.kernelTrans = self.kernel(kernelArgs)
         self.b_ = 0
         self.C = C
         self.eps = eps
         
     def predict_prob(self, data):
-        if self.w_ is None:
+        if self.alphas is None:
             print('error: the model had not been trained')
             return #should raise the expection
-        return self.w_.dot(data.T) + self.b_
+        wx = np.dot(self.alphas[self.supportVecIdx()]*self.supportVecLabels, 
+                    self.kernelTrans(self.supportVecs, data))
+        return wx + self.b_
     
     def predict(self, data):
         if self.w_ is None:
@@ -30,7 +34,7 @@ class plattKernelSMO():
             return #should raise the expection
         return np.sign(self.predict_prob(data))
     
-    def suportVecIdx(self):
+    def supportVecIdx(self):
         if self.w_ is None:
             print('error: the model had not been trained')
             return #should raise the expection
@@ -40,7 +44,7 @@ class plattKernelSMO():
         nSample = data.shape[0]
         self.alphas = np.zeros(nSample)
         self.eCache = np.zeros(nSample)
-        K = self.kernelTrans(data, self.kArgs)
+        K = self.kernelTrans(data, data)
         entireSet, alphaPairsChanged = True, 0
         loop = 0
         while(loop<maxIter) and ((alphaPairsChanged>0)or(entireSet)):
@@ -63,6 +67,8 @@ class plattKernelSMO():
                 print(f"iteratoin: {loop}")
         #end_while
         self.w_ = np.dot(self.alphas*labels, data)
+        self.supportVecs = data[self.supportVecIdx()]
+        self.supportVecLabels = labels[self.supportVecIdx()]
         
     def alphaPairOptim(self, labels, K, i):        
         Ei = self.predictAlpha(labels,K[:,i])-labels[i]
@@ -146,15 +152,15 @@ class plattKernelSMO():
             j = int(np.random.uniform(0,m))
         return j
     
-    def kernelTrans(self, data, args):
+    def kernel(self, args):
         if isinstance(args, tuple):
             method = args[0]
         else:
             method = args
         if method == 'linear':
-            return kernel.linear(data)
+            return kernel.linear()
         elif method == 'rbf':
             assert len(args)==2
-            return kernel.rbf(data, args[1])
+            return kernel.rbf(args[1])
         else:
-            return kernel.linear(data)
+            return kernel.linear()
