@@ -44,7 +44,14 @@ class C45Tree():
                 else:
                     return self.classify(tree[feat]['<='], sample)
             else:
-                return self.classify(tree[feat][sample[feat]], sample)
+                ret = None
+                try:
+                    ret = self.classify(tree[feat][sample[feat]], sample)
+                except KeyError:
+                    print('feat: ', feat, ' feat value: ', sample[feat])
+                    print('tree: ', tree[feat])
+                    ret = 0
+                return ret
         
     def calcEnt(self, labels):
         unique_labels = Counter(labels)
