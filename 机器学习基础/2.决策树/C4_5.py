@@ -40,16 +40,7 @@ class C45Tree():
             feat = list(tree.keys())[0]
             if feat in self.continueFeatVals:
                 if sample[feat] > self.continueFeatVals[feat]:
-                    ret = None
-                    try:
-                        ret = self.classify(tree[feat]['>'], sample)
-                    except KeyError:
-                        print('---- keyError ----' )
-                        print('featName: ', feat)
-                        print(f'sample[feat]: {sample[feat]}, '\
-                              f'self.continueFeatVals[feat]:  {self.continueFeatVals[feat]}')
-                        print(tree[feat])
-                    return ret
+                    return self.classify(tree[feat]['>'], sample)
                 else:
                     return self.classify(tree[feat]['<='], sample)
             else:
@@ -123,7 +114,7 @@ class C45Tree():
         #End condition 1: only one class left.
         if len(set(labels))==1:
             return labels.iloc[0]
-        #End condition 2: not feature left ot split.
+        #End condition 2: not feature left to split.
         if len(featName)==0:
             return Counter(labels).most_common(1)[0][0] #majority voting
         #Recursive create tree
