@@ -32,7 +32,14 @@ class ID3Tree():
             return tree
         else:
             axis = list(tree.keys())[0]
-            return self.classify(tree[axis][sample[axis]], sample)
+            ret = None
+            try:
+                ret = self.classify(tree[axis][sample[axis]], sample)
+            except KeyError:
+                print('feat: ', axis, ' feat value: ', sample[axis])
+                if DEBUG: print('tree: ', tree[axis])
+                ret = -1
+            return ret
         
     def calcEnt(self, labels):
         unique_labels = Counter(labels)

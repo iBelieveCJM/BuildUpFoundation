@@ -49,8 +49,8 @@ class C45Tree():
                     ret = self.classify(tree[feat][sample[feat]], sample)
                 except KeyError:
                     print('feat: ', feat, ' feat value: ', sample[feat])
-                    print('tree: ', tree[feat])
-                    ret = 0
+                    if DEBUG: print('tree: ', tree[feat])
+                    ret = -1
                 return ret
         
     def calcEnt(self, labels):
@@ -100,8 +100,6 @@ class C45Tree():
     
     def bestFeat(self, data, labels, featName):
         if DEBUG: print('-'*30, '\nall name: ', featName)
-#        if len(featName)==1:
-#            return featName[0], 0
         bestFeatVal, bestEntIncRate = -1, -0.1
         origin_ent = self.calcEnt(labels)
         bestFeatName = None

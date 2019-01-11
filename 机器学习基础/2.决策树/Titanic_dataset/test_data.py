@@ -38,5 +38,6 @@ def process(filePath):
     data = pd.read_csv(filePath)
     dataDrop(data)
     data = data.dropna()
+    data['Pclass'] = data['Pclass'].astype('category')
     labels = data.pop('Survived')
     return data, labels
