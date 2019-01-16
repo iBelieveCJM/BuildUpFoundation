@@ -8,7 +8,7 @@ import pandas as pd
 from collections import Counter
 from pandas.api.types import is_integer, is_categorical_dtype, is_object_dtype, is_string_dtype
 
-DEBUG = True
+DEBUG = False
 eps = 1e-8
 
 class C45Tree():
@@ -21,10 +21,10 @@ class C45Tree():
     def fit(self, data, labels):
         self.labelDtype = labels.dtype
         featName = self.makeFeatName(data)
-        self.continueFeatVals = {feat:0 for feat, dtype in featName.items()
+        self.continueFeatVals = {feat:dtype for feat, dtype in featName.items()
                                   if dtype=='continue'}
-        print(featName)
-        print(self.continueFeatVals)
+        if DEBUG: print(featName)
+        if DEBUG: print(self.continueFeatVals)
         self.tree = self.createTree(data, labels, featName)
         
     def predict(self, data):
@@ -39,7 +39,7 @@ class C45Tree():
         else:
             feat = list(tree.keys())[0]
             if feat in self.continueFeatVals:
-                if sample[feat] > self.continueFeatVals[feat]:
+                if sample[feat] > tree[feat]['splitVal']:
                     return self.classify(tree[feat]['>'], sample)
                 else:
                     return self.classify(tree[feat]['<='], sample)
@@ -124,13 +124,11 @@ class C45Tree():
             return Counter(labels).most_common(1)[0][0] #majority voting
         #Recursive create tree
         bestFeatName, bestFeatVal = self.bestFeat(data, labels, featName)
-        if bestFeatName in self.continueFeatVals: 
-            self.continueFeatVals[bestFeatName]=bestFeatVal
         if DEBUG: print('best feature: ', bestFeatName, ' val: ', bestFeatVal)
         del featName[bestFeatName]
-#        #End condition 3: only one feature value left.
-#        if len(values)==1:
-#            return Counter(labels).most_common(1)[0][0]
+        #End condition 3: only one feature value left.
+        if data[bestFeatName].unique().shape[0] == 1:
+            return Counter(labels).most_common(1)[0][0]
         tree = {bestFeatName:{}}
         if bestFeatVal is None:
             values = set(data[bestFeatName])
@@ -140,15 +138,13 @@ class C45Tree():
                                                           labels[data[bestFeatName]==val],
                                                           featName.copy())
         else:
+            tree[bestFeatName]['splitVal'] = bestFeatVal
             tree[bestFeatName]['<='] = self.createTree(data[data[bestFeatName]<=bestFeatVal],
                                                        labels[data[bestFeatName]<=bestFeatVal],
                                                        featName.copy())
-            if not data[bestFeatName].unique().shape[0]==1:
-                tree[bestFeatName]['>'] = self.createTree(data[data[bestFeatName]>bestFeatVal],
-                                                          labels[data[bestFeatName]>bestFeatVal],
-                                                          featName.copy())
-            else:
-                tree[bestFeatName]['>'] = Counter(labels).most_common(1)[0][0] #majority voting
+            tree[bestFeatName]['>'] = self.createTree(data[data[bestFeatName]>bestFeatVal],
+                                                      labels[data[bestFeatName]>bestFeatVal],
+                                                      featName.copy())
         return tree
     
     def makeFeatName(self, data):

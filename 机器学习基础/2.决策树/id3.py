@@ -80,11 +80,11 @@ class ID3Tree():
         bestFeatName, featAxis = self.bestFeat(data, labels, featName)
         if DEBUG: print('best name: ', bestFeatName, ' axis: ', featAxis)
         del featName[featAxis]
+        #End condition 3: only one feature value left.
+        if data[bestFeatName].unique().shape[0] == 1:
+            return Counter(labels).most_common(1)[0][0]
         values = set(data[bestFeatName])
         if DEBUG: print(values)
-#        #End condition 3: only one feature value left.
-#        if len(values)==1:
-#            return Counter(labels).most_common(1)[0][0]
         tree = {bestFeatName:{}}
         for val in values:
             tree[bestFeatName][val] = self.createTree(data[data[bestFeatName]==val],

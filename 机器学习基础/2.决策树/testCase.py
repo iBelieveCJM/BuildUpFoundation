@@ -8,12 +8,13 @@ import pandas as pd
 from id3 import ID3Tree
 from C4_5 import C45Tree
 from sklearn import tree
+from cart_classification import CART_classifier
 import graphviz
 
 DEBUG = False
 
-def testTitanicsklearn():
-    print('-'*30, '\testTitanicsklearn\n', '-'*30)
+def testTitanicSklearn():
+    print('-'*30, '\ntestTitanicsklearn\n', '-'*30)
     trd = pd.read_csv('Titanic_dataset/train.csv')
     # drop useless and continue features
     for i in ["PassengerId", "Name", "Ticket", "Cabin", "Age", "SibSp", "Parch", "Fare"]:
@@ -25,7 +26,7 @@ def testTitanicsklearn():
     trd['Embarked'] = trd['Embarked'].map(Embarked_map)
     if DEBUG: print(trd[:5])
     # create train data
-    trdd = trd.sample(frac=1.0)
+    trdd = trd.sample(frac=0.4)
     # using "Survived" as labels
     trl = trd.pop("Survived")
     trll = trdd.pop("Survived")
@@ -35,11 +36,36 @@ def testTitanicsklearn():
     # prediction
     pred = t.predict(trd)
     print('Acc.: ', np.sum(pred==trl.reset_index(drop=True))/trl.shape[0])
-    # visulize the tree
-    dot_data = tree.export_graphviz(t, out_file=None, 
-                  feature_names=trdd.columns)
-    graph = graphviz.Source(dot_data)
-    graph.view()
+#    # visulize the tree
+#    dot_data = tree.export_graphviz(t, out_file=None, 
+#                  feature_names=trdd.columns)
+#    graph = graphviz.Source(dot_data)
+#    graph.view()
+    
+def testTitanicCART():
+    print('-'*30, '\ntestTitanicCART\n', '-'*30)
+    trd = pd.read_csv('Titanic_dataset/train.csv')
+    # drop useless and continue features
+    for i in ["PassengerId", "Name", "Ticket", "Cabin", "Age", "SibSp", "Parch", "Fare"]:
+        trd.pop(i)
+    trd = trd.dropna()        # drop nan values
+    # convert non-digits to digits
+    trd = pd.get_dummies(trd, columns=['Sex'])
+    Embarked_map = {val:idx for idx, val in enumerate(trd['Embarked'].unique())}
+    trd['Embarked'] = trd['Embarked'].map(Embarked_map)
+    if DEBUG: print(trd[:5])
+    # create train data
+    trdd = trd.sample(frac=0.4)
+    # using "Survived" as labels
+    trl = trd.pop("Survived")
+    trll = trdd.pop("Survived")
+    # training tree
+    t = CART_classifier()
+    t.fit(trdd, trll)
+    print(t.tree)
+    # prediction
+    pred = t.predict(trd)
+    print('Acc.: ', np.sum(pred==trl.reset_index(drop=True))/trl.shape[0])
 
 def test1(t):
     print('-'*30, '\ntest1\n', '-'*30)
@@ -58,7 +84,7 @@ def test1(t):
     t.fit(data, labels)
     print(t.tree)
     pred = t.predict(data)
-    print(pred)
+    if DEBUG: print(pred)
     print('Acc.: ', np.sum(pred==labels)/labels.shape[0])
     
 def test2(t):
@@ -122,9 +148,13 @@ def testTitanic(t):
     print('Acc.: ', np.sum(pred==trl.reset_index(drop=True))/trl.shape[0])
     
 if __name__ == '__main__':
-    t = ID3Tree()
-    #t = C45Tree()
+    #t = ID3Tree()
+    t = C45Tree()
     #test1(t)
     #test2(t)
     testTitanicDiscrete(t)
-    #testTitanic(t)
+    testTitanic(t)
+    testTitanicCART()
+    
+    # test sklearn tree
+    testTitanicSklearn()
