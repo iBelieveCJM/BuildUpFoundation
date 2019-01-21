@@ -48,7 +48,6 @@ std::string midOrder(TreeNode* root){
 */
 std::string midOrderMorris(TreeNode *root){
     std::string ret;
-    TreeNode *pre = nullptr;
     while(root != nullptr){
         // if it is leftest node, then visit it
         if(root->left == nullptr){
@@ -58,7 +57,7 @@ std::string midOrderMorris(TreeNode *root){
         else{
             // find front node of the current node
             // front node is left child or the rightest node of left subtree
-            pre = root->left;    // root->left is not nullptr
+            TreeNode *pre = root->left;    // root->left is not nullptr
             while(pre->right!=nullptr && pre->right!=root){ //Note: pre->right!=root
                 pre = pre->right;
             }
