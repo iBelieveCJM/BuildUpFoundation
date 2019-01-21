@@ -13,7 +13,8 @@ treeAlgo algo = preOrder;
 #elif MID_ORDER
 #include"midOrder.hpp"
 treeAlgo algo_recursive = midOrder_recursive;
-treeAlgo algo = midOrder;
+//treeAlgo algo = midOrder;
+treeAlgo algo = midOrderMorris;
 #elif POST_ORDER
 #include"postOrder.hpp"
 treeAlgo algo_recursive = postOrder_recursive;
