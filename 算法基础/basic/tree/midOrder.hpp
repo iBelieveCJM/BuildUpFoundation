@@ -33,11 +33,9 @@ std::string midOrder(TreeNode* root){
             st.push(root);
             root = root->left;
         }
-        if(!st.empty()){
-            root = st.top(); st.pop();
-            ret += root->val;
-            root = root->right;
-        }
+        root = st.top(); st.pop();
+        ret += root->val;
+        root = root->right;
     }
     return ret;
 }
