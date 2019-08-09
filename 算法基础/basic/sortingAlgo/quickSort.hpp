@@ -69,6 +69,7 @@ int partition2(vector<int>& arr, int left, int right){
 }
 
 static void quickSort_(vector<int>& arr, int left, int right){
+    //note. don't forget the final condition
     if(left>=right)
         return;
     int pivot = partition2(arr, left, right);
@@ -106,6 +107,29 @@ void quickSort_unrecursion(vector<int>& arr){
         if(left < pivot-1){
             stack[++top] = left;
             stack[++top] = pivot-1;
+        }
+    }
+}
+
+// using a stack to keep the bound
+void quickSort_unrecursion2(vector<int>& arr){
+    if(arr.size()==0 || arr.size()==1){
+        return;
+    }
+    vector<int> stack;
+    stack.push_back(0);           // first push left
+    stack.push_back(arr.size()-1);// then push right
+    while(!stack.empty()){
+        int right = stack.back(); stack.pop_back(); // first pop left
+        int left  = stack.back(); stack.pop_back(); // then pop right
+        int pivot = partition0(arr, left, right);
+        if(pivot+1 < right){
+            stack.push_back(pivot+1);
+            stack.push_back(right);
+        }
+        if(left < pivot-1){
+            stack.push_back(left);
+            stack.push_back(pivot-1);
         }
     }
 }
