@@ -51,6 +51,28 @@ void combination(vector<T>& arr, int n){
     combination_(arr, pos, 0);
 }
 
+template<typename T>
+void combination(vector<T>& arr){
+    /* a simple version with limited n;
+    */
+    if(arr.size() < 3){
+        return; // error, should throw exceptions.
+    }
+    int size = arr.size();
+    for(int i=0; i<size; ++i){
+        for(int j=i+1; j<size; ++j){
+            for(int z=j+1; z<size; ++z){
+                std::cout<< arr[i] << " "
+                         << arr[j] << " "
+                         << arr[z] << std::endl;
+#ifdef DEBUG
+                ++count;
+#endif
+            }
+        }
+    }
+}
+
 int main(){
     //vector<int> arr = {1,2,3};
     vector<char> arr = {'a', 'b', 'c', 'd'};
