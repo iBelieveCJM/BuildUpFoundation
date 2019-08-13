@@ -23,6 +23,15 @@ sortingAlgo sort = mergeSort;
 #elif HEAP_SORT
 #include"heapSort.hpp"
 sortingAlgo sort = heapSort;
+#elif COUNT_SORT
+#include"bucketSort.hpp"
+sortingAlgo sort = countSort;
+#elif RADIX_LSD_SORT
+#include"bucketSort.hpp"
+void radixLSD(vector<int>& arr){
+    radixSortLSD(arr, 10);
+}
+sortingAlgo sort = radixLSD;
 #elif HEAP_SORT_STL
 void heapSort(vector<int>& arr){
     std::make_heap(arr.begin(), arr.end());

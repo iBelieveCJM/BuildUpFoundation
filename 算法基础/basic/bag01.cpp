@@ -1,16 +1,16 @@
 // 0-1 背包问题
 // 问题描述：
-// 给定 n 个重量为 w1,w2,w3...wn， 价值为 v1,v2,v3...vn 的物品，
-// 和容量为 C 的背包，求满足背包容量的前提下，使得包内总价值最大
+//  给定 n 个重量为 w1,w2,w3...wn， 价值为 v1,v2,v3...vn 的物品，
+//  和容量为 C 的背包，求满足背包容量的前提下，使得包内总价值最大
 //
 // 问题分析：
-// 令 F(n, C) 表示将前 n 个物品放进容量为 C 的背包里，得到的最大价值
-// 此时，我们有两种选择：
-//     1. 不放第 n 个物品，此时总价值为 F(n-1, C)
-//     2. 放置第 n 个物品，此时总价值为 vn + F(n-1, C-wn)
-// 在两种选择中，选择总价值最大的方案。
-// 得到状态转移方程如下：
-//     F(i, C) = max( F(i-1, C), vi + F(i-1, C-wi) )
+//  令 F(n, C) 表示将前 n 个物品放进容量为 C 的背包里，得到的最大价值
+//  此时，我们有两种选择：
+//      1. 不放第 n 个物品，此时总价值为 F(n-1, C)
+//      2. 放置第 n 个物品，此时总价值为 vn + F(n-1, C-wn)
+//  在两种选择中，选择总价值最大的方案。
+//  得到状态转移方程如下：
+//      F(i, C) = max( F(i-1, C), vi + F(i-1, C-wi) )
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -57,7 +57,7 @@ int bag(vector<int>& w, vector<int>& v, int step, int capacity,
 }
 
 int bag1(vector<int>& w, vector<int>& v, int capacity){
-    /* 动态规划1：一维数组存储结果
+    /* 动态规划1：二维数组存储结果
     */
     int n = w.size();
     vector<vector<int>> dp(n+1, vector<int>(capacity+1, 0));

@@ -53,7 +53,7 @@ void combination(vector<T>& arr, int n){
 
 template<typename T>
 void combination(vector<T>& arr){
-    /* a simple version with limited n;
+    /* a simple version with limited elements;
     */
     if(arr.size() < 3){
         return; // error, should throw exceptions.
