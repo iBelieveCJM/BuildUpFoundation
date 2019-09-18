@@ -17,7 +17,7 @@ using namespace std;
 
 int bag(vector<int>& w, vector<int>& v, int step, int capacity){
     /* 递归
-    优点：简单，几乎就是直接套状态转移方程
+    优点：适合于 n 较小，而 C 较大的情况
     缺点：存在大量重复计算
     */
     if(step<0 || capacity <=0){
