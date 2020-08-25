@@ -73,3 +73,28 @@ std::string postOrder2(TreeNode* root){
     }
     return ret;
 }
+
+std::string postOrder3(TreeNode* root){
+    std::string ret;
+    if(root==nullptr){
+        return ret;
+    }
+    std::stack<TreeNode*> st;
+    st.push(root);
+    while(!st.empty()){
+        root = st.top();
+        if(root->left==nullptr && root->right==nullptr){
+            ret += root->val;
+            st.pop();
+        }
+        if(root->right!=nullptr){
+            st.push(root->right);
+            root->right = nullptr;
+        }
+        if(root->left!=nullptr){
+            st.push(root->left);
+            root->left = nullptr;
+        }
+    }
+    return ret;
+}
